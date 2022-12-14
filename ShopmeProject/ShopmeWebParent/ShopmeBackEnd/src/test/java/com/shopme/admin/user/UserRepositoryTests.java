@@ -17,7 +17,7 @@ import com.shopme.common.entity.User;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-//@Rollback(false)
+@Rollback(false)
 public class UserRepositoryTests {
 	@Autowired
 	private UserRepository userRepo;
@@ -28,7 +28,7 @@ public class UserRepositoryTests {
 	@Test
 	public void testCreateNewUserWithOneRole() {
 		Role role = entityManager.find(Role.class, 1);
-		User userThong = new User("thong@gmail.com", "12345", "Thong", "Hoang");
+		User userThong = new User("thong@gmail.com", "12345", "Bem", "Nguyễn");
 		userThong.addRole(role);
 		
 		User userSaved = userRepo.save(userThong);
@@ -41,7 +41,7 @@ public class UserRepositoryTests {
 	public void testCreateNewUserWithTwoRoles() {
 		User userBem = new User("bem11@gmail.com", "bem123", "Bem", "Nguyễn");
 		Role roleEditor = new Role(3);
-		Role roleAdmin = new Role(1);
+		// Role roleAdmin = new Role(1);
 		Role roleAssistant = new Role(5);
 		
 		userBem.addRole(roleEditor);
