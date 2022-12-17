@@ -7,6 +7,9 @@
 	<title>Shopme Admin Control</title>
 
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+
 	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
@@ -68,9 +71,9 @@
 			<h2>Manage User</h2>
 			<a th:href="@{users/new}">Create New User</a>
 		</div>
-		
+
 		<div th:if="${message != null}" class="alert alert-success text-center">
-		[[${message}]]
+			[[${message}]]
 		</div>
 		<div>
 			<table class="table table-bordered table-striped table-hover table-responsive-xl">
@@ -89,14 +92,19 @@
 				<tbody>
 					<tr th:each="user : ${listUsers}">
 						<td>[[${user.id}]]</td>
-						<td></td>
+						<td><span class="fa-solid fa-image-portrait fa-3x icon-dark"></td>
 						<td>[[${user.email}]]</td>
 						<td>[[${user.firstName}]]</td>
 						<td>[[${user.lastName}]]</td>
 						<td>[[${user.roles}]]</td>
-						<td>[[${user.enabled}]]</td>
 						<td>
-						 Edit &nbsp; Delete
+							<a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green" href=""></a>
+							<a th:if="${user.enabled == false}" class="fas fa-check-circle fa-2x icon-dark" href=""></a>
+						</td>
+						<td>
+							<a class="fas fa-edit fa-2x icon-green" href=""></a>
+							&nbsp;
+							<a class="fa fa-trash fa-2x icon-dark" href=""></a>
 						</td>
 					</tr>
 				</tbody>
