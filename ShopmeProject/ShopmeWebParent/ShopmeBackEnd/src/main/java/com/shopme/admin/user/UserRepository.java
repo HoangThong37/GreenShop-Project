@@ -12,5 +12,7 @@ import com.shopme.common.entity.User;
 public interface UserRepository extends CrudRepository<User, Integer> {
 	@Query("SELECT u From User u WHERE u.email = :email")
 	public User getUserByEmail(@Param("email") String email);
+	
+	public Long countById(Integer id);
 
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
-@Service
+@Service 
 public class UserService {
 
 	@Autowired
@@ -35,9 +35,9 @@ public class UserService {
 
 	public void save(User user) { 
 		boolean isUpdateUser  = (user.getId() != null); // xem id có null k
-		if (isUpdateUser) { // có id user
+		if (isUpdateUser == true) { // có id user
 			User exitUser = userRepository.findById(user.getId()).get(); // get id user
-			if (user.getPassword().isEmpty()) { // nếu password null thì set vào
+			if (user.getPassword().isEmpty()) {  // nếu password null thì set vào
 				user.setPassword(exitUser.getPassword());
 			}  else {
 				encodePassword(user);
@@ -79,6 +79,15 @@ public class UserService {
 		} catch (NoSuchElementException e) {
 			throw new UserNotFoundException("Could not find any user with ID : " + id);
 		}
+	}
+	
+	public void delete(Integer id) throws UserNotFoundException {
+		Long idDelete  =  userRepository.countById(id);
+		if (idDelete == null || idDelete==0) {
+			throw new UserNotFoundException("Could not find any user with ID : " + id);
+		}
+		userRepository.deleteById(id);
+		
 	}
 
 }
