@@ -92,19 +92,23 @@
 				<tbody>
 					<tr th:each="user : ${listUsers}">
 						<td>[[${user.id}]]</td>
-						<td><span class="fa-solid fa-image-portrait fa-3x icon-dark"></td>
+						<td>
+						    <span th:if="${user.photos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
+						    <img  th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" 
+						    style="width:100px";
+						    ></img>
+					
+						</td>
 						<td>[[${user.email}]]</td>
 						<td>[[${user.firstName}]]</td>
 						<td>[[${user.lastName}]]</td>
 						<td>[[${user.roles}]]</td>
 						<td>
 							<a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green"
-								th:href="@{'/users/' + ${user.id} + '/enabled/false'}"
-								 title="Disable this user">
+								th:href="@{'/users/' + ${user.id} + '/enabled/false'}" title="Disable this user">
 							</a>
 							<a th:if="${user.enabled == false}" class="fas fa-circle fa-2x icon-dark"
-								th:href="@{'/users/' + ${user.id} + '/enabled/true'}"
-								 title="Enabled this user">
+								th:href="@{'/users/' + ${user.id} + '/enabled/true'}" title="Enabled this user">
 							</a>
 						</td>
 						<td>
@@ -112,7 +116,7 @@
 								title="Edit this user"></a>
 							&nbsp;
 							<a class="fa fa-trash fa-2x icon-dark link-delete"
-								th:href="@{'/users/delete/'  + ${user.id}}" th:userId="${user.id}" 
+								th:href="@{'/users/delete/'  + ${user.id}}" th:userId="${user.id}"
 								title="Delete this user"></a>
 						</td>
 					</tr>
@@ -122,7 +126,7 @@
 		</div>
 
 		<div class="modal fade text-center" id="confirmModal">
-			<div class="modal-dialog"> 
+			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title" id="modalTitle">Delete Confirmation</h4>

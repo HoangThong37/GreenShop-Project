@@ -36,7 +36,7 @@ public class UserService {
 		return (List<Role>) roleRepository.findAll();
 	}
 
-	public void save(User user) { 
+	public User save(User user) { 
 		boolean isUpdateUser  = (user.getId() != null); // xem id có null k
 		if (isUpdateUser == true) { // có id user
 			User exitUser = userRepository.findById(user.getId()).get(); // get id user
@@ -48,7 +48,7 @@ public class UserService {
 		} else {
 			encodePassword(user);
 		}
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 	
 	private void encodePassword(User user) {
