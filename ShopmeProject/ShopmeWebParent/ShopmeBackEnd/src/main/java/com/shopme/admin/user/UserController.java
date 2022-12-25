@@ -1,9 +1,12 @@
 package com.shopme.admin.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -29,6 +32,30 @@ public class UserController {
 		List<User> listUser = userService.listAll();
 		model.addAttribute("listUsers", listUser);
 		return "users";
+	}
+	
+	// list page
+	@GetMapping("/users/page/{pageNumber}")
+	public String listPage(@PathVariable(name = "pageNumber") Integer page ,Model model) {
+		Page<User> pageUser =userService.listByPage(page);
+		List<User> listUser = pageUser.getContent();
+		
+		long startCount = (page - 1) * UserService.USER_PER_PAGE + 1;
+		long endCount = startCount + UserService.USER_PER_PAGE - 1;
+		if (endCount > pageUser.getTotalElements()) {
+			endCount = pageUser.getTotalElements();
+		}
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", pageUser.getTotalPages());
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
+		model.addAttribute("totalItems", pageUser.getTotalElements());
+		model.addAttribute("listUsers", listUser);
+		return "users";
+		
+//		List<User> listUser = userService.listAll();
+//		model.addAttribute("listUsers", listUser);
+//		return "users";
 	}
 
 	@GetMapping("/users/new")

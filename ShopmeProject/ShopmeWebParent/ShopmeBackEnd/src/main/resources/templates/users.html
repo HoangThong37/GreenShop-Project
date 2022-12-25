@@ -93,11 +93,10 @@
 					<tr th:each="user : ${listUsers}">
 						<td>[[${user.id}]]</td>
 						<td>
-						    <span th:if="${user.photos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
-						    <img  th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" 
-						    style="width:100px";
-						    ></img>
-					
+							<span th:if="${user.photos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
+							<img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" style="width:100px"
+								;></img>
+
 						</td>
 						<td>[[${user.email}]]</td>
 						<td>[[${user.firstName}]]</td>
@@ -121,8 +120,38 @@
 						</td>
 					</tr>
 				</tbody>
-
 			</table>
+		</div>
+
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>No users found</span>
+		</div>
+
+		<div class="text-center">
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+						<a class="page-link" th:href="@{/users/page/1}">First</a>
+					</li>
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+						<a class="page-link" th:href="@{'/users/page/' + ${currentPage - 1}}">Previous</a>
+					</li>
+					<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" class="page-item"
+						th:each="i : ${#numbers.sequence(1, totalPages)}">
+						<a class="page-link" th:href="@{'/users/page/' + ${i}}">[[${i}]]</a>
+					</li>
+
+					<li th:class="${totalPages > currentPage ? 'page-item' : 'page-item disabled'}">
+						<a class="page-link" th:href="@{'/users/page/' + ${currentPage + 1}}">Next</a>
+					</li>
+					<li th:class="${totalPages > currentPage ? 'page-item' : 'page-item disabled'}">
+					<a class="page-link" th:href="@{'/users/page/' + ${totalPages}}">Last</a>
+					</li>
+				</ul>
+			</nav>
 		</div>
 
 		<div class="modal fade text-center" id="confirmModal">
