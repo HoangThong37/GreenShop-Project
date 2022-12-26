@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -29,15 +30,17 @@ public class UserController {
 
 	@GetMapping("/users")
 	public String listAll(Model model) {
-		List<User> listUser = userService.listAll();
-		model.addAttribute("listUsers", listUser);
-		return "users";
+//		List<User> listUser = userService.listAll();
+//		model.addAttribute("listUsers", listUser);
+		return listPage(1, model, "firstName", "asc");
 	}
 	
 	// list page
 	@GetMapping("/users/page/{pageNumber}")
-	public String listPage(@PathVariable(name = "pageNumber") Integer page ,Model model) {
-		Page<User> pageUser =userService.listByPage(page);
+	public String listPage(@PathVariable(name = "pageNumber") int page ,Model model, 
+			               @Param("sortField") String sortField, @Param("sortDir") String sortDir) {
+		
+		Page<User> pageUser =userService.listByPage(page, sortField, sortDir);
 		List<User> listUser = pageUser.getContent();
 		
 		long startCount = (page - 1) * UserService.USER_PER_PAGE + 1;
@@ -45,12 +48,18 @@ public class UserController {
 		if (endCount > pageUser.getTotalElements()) {
 			endCount = pageUser.getTotalElements();
 		}
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", pageUser.getTotalPages());
 		model.addAttribute("startCount", startCount);
 		model.addAttribute("endCount", endCount);
 		model.addAttribute("totalItems", pageUser.getTotalElements());
 		model.addAttribute("listUsers", listUser);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", reverseSortDir);
+		
 		return "users";
 		
 //		List<User> listUser = userService.listAll();
