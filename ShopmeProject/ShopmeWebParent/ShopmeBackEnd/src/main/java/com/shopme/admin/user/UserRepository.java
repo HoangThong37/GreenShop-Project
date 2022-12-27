@@ -1,5 +1,7 @@
 package com.shopme.admin.user;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,6 +18,11 @@ public interface UserRepository extends PagingAndSortingRepository<User, Integer
 	public User getUserByEmail(@Param("email") String email);
 	
 	public Long countById(Integer id);
+	
+	// filter - tìm kiếm
+	// @Query("SELECT u From User u where u.firstName LIKE %?1% OR u.lastName LIKE %?1% OR u.email LIKE %?1%")
+	@Query("SELECT u From User u WHERE CONCAT(u.id, ' ',u.email, ' ',u.firstName, ' ',u.lastName) LIKE %?1%")
+	public Page<User> findAll(String keyword, Pageable pageable);
 	
 	@Query("UPDATE User u set u.enabled = ?2 where u.id = ?1")
 	@Modifying // cập nhật dữ liệu db
