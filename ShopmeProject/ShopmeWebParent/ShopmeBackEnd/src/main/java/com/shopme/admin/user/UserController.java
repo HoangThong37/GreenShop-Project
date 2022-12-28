@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -98,7 +100,7 @@ public class UserController {
 		else {
 			if (user.getPhotos().isEmpty()) {
 				user.setPhotos(null);
-			} 
+			}  
 			userService.save(user);
 		}
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully");
@@ -153,4 +155,13 @@ public class UserController {
 
 		return "redirect:/users";
 	}
+	
+	// code export csv list user
+	@GetMapping("/users/export/csv")
+	public void exportUserByCsv(HttpServletResponse response) throws IOException {
+		List<User> listUser = userService.listAll();
+		UserCsvExporter userExporter = new UserCsvExporter();
+		userExporter.export(listUser, response);
+	}
+	
 }
