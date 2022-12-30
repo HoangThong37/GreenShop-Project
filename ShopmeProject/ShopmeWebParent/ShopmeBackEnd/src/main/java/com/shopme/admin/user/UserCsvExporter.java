@@ -17,8 +17,9 @@ import org.supercsv.prefs.CsvPreference;
 import com.shopme.common.entity.User;
 
 public class UserCsvExporter {
-     
+
 	public void export(List<User> users, HttpServletResponse response) throws IOException {
+		// super.setResponseHeader(response, "text/csv", ".csv");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss"); // format
 		String timestamp = dateFormat.format(new Date());
 		String fileName = "users_" + timestamp + ".csv";
@@ -30,10 +31,10 @@ public class UserCsvExporter {
 
 		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
 		String[] csvHeader = { "User ID", "Email", "First Name", "Last Name", "Roles", "Enabled" };
-		String[] mapUser = {"id", "email", "firstName", "lastName", "roles" , "enabled"};
+		String[] mapUser = { "id", "email", "firstName", "lastName", "roles", "enabled" };
 		csvWriter.writeHeader(csvHeader);
 		// add list user
-		for(User user : users) {
+		for (User user : users) {
 			csvWriter.write(user, mapUser);
 		}
 		csvWriter.close();

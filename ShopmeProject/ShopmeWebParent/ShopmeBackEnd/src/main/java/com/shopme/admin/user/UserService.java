@@ -33,7 +33,7 @@ public class UserService {
 
 	// find all user
 	public List<User> listAll() {
-		return (List<User>) userRepository.findAll(Sort.by("fieldName").ascending());
+		return (List<User>) userRepository.findAll(Sort.by("firstName").ascending());
 	}
 	
 	public Page<User> listByPage(int number, String sortField, String sortDir, String keyword) {
