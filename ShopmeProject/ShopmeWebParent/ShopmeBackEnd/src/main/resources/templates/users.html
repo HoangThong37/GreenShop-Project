@@ -74,6 +74,8 @@
 			<a th:href="@{/users/export/csv}">Export to CSV</a>
 			&nbsp;|&nbsp;
 			<a th:href="@{/users/export/excel}">Export to Excel</a>
+			&nbsp;|&nbsp;
+			<a th:href="@{/users/export/pdf}">Export to PDF</a>
 		</div>
 
 		<div th:if="${message != null}" class="alert alert-success text-center">
@@ -156,18 +158,18 @@
 					</li>
 					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
 						<a th:replace="fragments :: page_link(${currentPage - 1}, 'Previous')"></a>
-							
+
 					</li>
 					<li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" class="page-item"
 						th:each="i : ${#numbers.sequence(1, totalPages)}">
-						<a th:replace="fragments :: page_link(${i}, ${i})"></a>						
+						<a th:replace="fragments :: page_link(${i}, ${i})"></a>
 					</li>
 
 					<li th:class="${totalPages > currentPage ? 'page-item' : 'page-item disabled'}">
-						<a th:replace="fragments :: page_link(${currentPage + 1}, 'Next')"></a>	
+						<a th:replace="fragments :: page_link(${currentPage + 1}, 'Next')"></a>
 					</li>
 					<li th:class="${totalPages > currentPage ? 'page-item' : 'page-item disabled'}">
-						<a th:replace="fragments :: page_link(${totalPages}, 'Last')"></a>	
+						<a th:replace="fragments :: page_link(${totalPages}, 'Last')"></a>
 					</li>
 				</ul>
 			</nav>
