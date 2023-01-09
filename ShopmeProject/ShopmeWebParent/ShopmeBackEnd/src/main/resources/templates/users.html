@@ -1,71 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-	<title>Shopme Admin Control</title>
-
-	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
-
-	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-</head>
+<head th:replace="fragments :: page_head('Shopme Admin Control')" />
 
 <body>
 	<div class="container-fluid">
-		<div>
-			<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-				<a class="navbar-brand" th:href="@{/}">
-					<img th:src="@{/images/ShopmeAdminSmall1.png}" />
-				</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="topNavbar">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/users}">Users</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/categories}">Categories</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/brands}">Brands</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/products}">Products</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/customer}">Customer</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/shipping}">Shipping</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/orders}">Orders</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/report}">Sales Report</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/articles}">Articles</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/menus}">Menus</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" th:href="@{/settings}">Settings</a>
-						</li>
-
-					</ul>
-				</div>
-
-			</nav>
-		</div>
-
+		<div th:replace="navigation :: menu"></div>
 		<div>
 			<h2>Manage User</h2>
 			<a th:href="@{/users/new}" class="fa-solid fa-user-plus fa-2x icon-dark mr-2"></a>
@@ -105,13 +45,13 @@
 						<th class="hideable-column">
 							<th th:replace="fragments :: column_link('id', 'User ID', 'tag')" />
 						</th>
-						
+
 						<th>Photo</th>
-						
+
 						<th class="hideable-column">
 							<th th:replace="fragments :: column_link('email', 'Email', 'tag')" />
 						</th>
-						
+
 						<th th:replace="fragments :: column_link('firstName', 'First Name', 'none')" />
 						<th th:replace="fragments :: column_link('lastName', 'Last Name', 'none')" />
 						<th>Roles</th>
@@ -235,9 +175,7 @@
 		</div>
 
 
-		<div class="text-center">
-			<p>Bem Shop - Copyright &copy; Bem</p>
-		</div>
+      <div th:replace="fragments :: footer"></div>
 
 	</div>
 	<script type="text/javascript">
