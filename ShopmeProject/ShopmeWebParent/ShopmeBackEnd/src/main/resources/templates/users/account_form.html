@@ -119,45 +119,7 @@
 			<div th:replace="fragments :: footer"></div>
 		</div>
 		<script type="text/javascript">
-			$(document)
-					.ready(
-							function() {
-								$("#buttonCancel").on("click", function() {
-									window.location = "[[@{/users}]]";
-								});
-
-								$("#fileImage")
-										.change(
-												function() {
-													fileSize = this.files[0].size;
-													//alert("File size : " + fileSize);
-													if (fileSize > 1048576) {
-														this
-																.setCustomValidity("You must choose an image less than 1MB! ");
-														this.reportValidity();
-													} else {
-														this
-																.setCustomValidity("");
-														showImageThumbnail(this);
-													}
-													//showImageThumbnail(this);
-												});
-							});
-			// image thumbnail
-			function showImageThumbnail(fileInput) {
-				//var file = fileInput.files[0];
-				// var reader = new FileReader();
-				//reader.onload = function(e) {
-				//	$("#thumbnail").attr("src", src.tagret.result); // set the attribute
-				//};
-				//reader.readAsDataURL(file);
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					$("#thumbnail").attr("src", e.target.result);
-				};
-				reader.readAsDataURL(fileInput.files[0]);
-			}
-
+		    moduleURL = "[[@{/user}]]";
 			function showModalDialog(title, message) {
 				$("#modalTitle").text(title);
 				$("#modalBody").text(message);
@@ -173,6 +135,7 @@
 				}
 			}
 		</script>
+		<script th:src="@{/js/common_form.js}"></script>
 </body>
 
 </script>

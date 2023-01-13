@@ -7,10 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import org.junit.jupiter.api.DisplayNameGenerator.Standard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadUntil {
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadUntil.class);
 
 	// save file
 	public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
@@ -37,12 +39,14 @@ public class FileUploadUntil {
 					try {
 						Files.delete(file);
 					} catch (IOException e) {
-						System.out.println("Could not delete file : " + file);
+						LOGGER.error("Could not delete file : " + file);
+						// System.out.println("Could not delete file : " + file);
 					}
 				}
 			});
 		} catch (IOException ex) {
-			System.out.println("Could not list directory : " + dirPath);
+			LOGGER.error("Could not list directory : " + dirPath);
+            // System.out.println("Could not list directory : " + dirPath);
 		}
 	}
 }
