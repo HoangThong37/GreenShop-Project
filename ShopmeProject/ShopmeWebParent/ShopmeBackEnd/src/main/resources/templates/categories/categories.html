@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Categories - Shopme Admin')" />
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+		<div>
+			<h2>Manage Categories</h2>
+			<a th:href="@{/categories/new}"
+				class="fa-solid fa-folder-plus fa-2x icon-dark mr-2"></a> <a
+				th:href="@{/categories/export/csv}"
+				class="fa-solid fa-file-csv fa-2x icon-dark mr-2"></a>
+		</div>
+
+		<div th:if="${message != null}"
+			class="alert alert-success text-center">[[${message}]]</div>
+
+		<div>
+			<form th:action="@{/categories/page/1}" class="form-inline m-3">
+				Filter:&nbsp; <input type="search" name="keyword"
+					th:value="${keyword}" class="form-control" required />
+				&nbsp;&nbsp;
+				<button type="submit" class="btn btn-primary">
+					<i class="fas fa-search"></i>
+				</button>
+				&nbsp;
+				<button type="button" class="btn btn-secondary"
+					onclick="clearFilter()">
+					<i class="fas fa-eraser"></i>
+				</button>
+			</form>
+		</div>
+
+		<div class="full-details">
+			<table
+				class="table table-bordered table-striped table-hover table-responsive-xl">
+				<thead class="thead-dark">
+					<tr>
+						<th>ID</th>
+						<th>Category Image</th>
+						<th>Category Name</th>
+						<th>Alias</th>
+						<th>Enabled</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="category : ${listCategories}">
+						<td>[[${category.id}]]</td>
+						<td></td>
+						<td>[[${category.name}]]</td>
+						<td>[[${category.alias}]]</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+        <div th:replace="fragments :: footer"></div>
+
+</body>
+</html>
