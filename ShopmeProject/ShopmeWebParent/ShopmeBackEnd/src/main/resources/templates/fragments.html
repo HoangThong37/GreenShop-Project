@@ -29,7 +29,31 @@
 	</th>
 
 	<a th:fragment="page_link(pageNum, label)" class="page-link"
-		th:href="@{'/users/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]</a>
+		th:href="@{'/users/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]
+	</a>
+	
+	<div th:fragment="status(enabled, entityName, entityURL)" th:remove="tag">
+	   <a th:if="${enabled == true}" class="fas fa-check-circle fa-2x icon-green" 
+			th:href="@{${entityURL} + '/enabled/false'}"
+			th:title="'Disable this ' + ${entityName}"
+			></a>
+			
+		<a th:if="${enabled == false}" class="fas fa-circle fa-2x icon-dark" 
+			th:href="@{${entityURL} + '/enabled/true'}"
+			th:title="'Enable this ' + ${entityName}"
+			></a>	
+	</div>
+	
+	<div th:fragment="edit(entityName, editURL)" th:remove="tag">
+		<a class="fas fa-edit fa-2x icon-green" th:href="@{${editURL}}"
+			th:title="'Edit this ' + ${entityName}"></a>
+	</div>
+	
+	<div th:fragment="delete" th:remove="tag">
+	
+	</div>
+	
+	
 </body>
 
 </html>
