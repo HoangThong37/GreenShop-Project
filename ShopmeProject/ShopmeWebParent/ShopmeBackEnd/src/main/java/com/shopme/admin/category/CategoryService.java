@@ -1,6 +1,8 @@
 package com.shopme.admin.category;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -12,16 +14,49 @@ import com.shopme.common.entity.Category;
 @Service
 //@Transactional
 public class CategoryService {
-      
+
 	@Autowired
-	 private CategoryRepository repository;
-	
-	
+	private CategoryRepository repository;
+
 	public List<Category> listAll() {
 		return (List<Category>) repository.findAll();
 	}
-	
+
 	public List<Category> listCategoriesUsedInForm() {
-		return (List<Category>) repository.findAll();
+		List<Category> result = new ArrayList<>();
+
+		Iterable<Category> categoryInDB = repository.findAll(); // get all
+		for (Category category : categoryInDB) { // duyệt all
+			if (category.getParent() == null) {
+				result.add(new Category(category.getName()));
+				// System.out.println(category.getName()); // in parent
+
+				Set<Category> children = category.getChildren();
+				for (Category item : children) {
+					String name = "--" + item.getName();
+					result.add(new Category(name));
+					printChildren(result, item, 1);
+				}
+			}
+		}
+		return result;
+	}
+
+	private void printChildren(List<Category> result, Category parent, int subLevel) {
+		// TODO Auto-generated method stub
+		int newSubLevel = subLevel + 1;
+		Set<Category> children = parent.getChildren();
+		
+		for (Category subCategory : children) {
+			String name = "";
+			for (int i = 0; i < newSubLevel; i++) {
+				name += "--";
+			}
+			name += subCategory.getName();
+			
+			result.add(new Category(name));
+			printChildren(result ,subCategory, newSubLevel);
+		}
+
 	}
 }

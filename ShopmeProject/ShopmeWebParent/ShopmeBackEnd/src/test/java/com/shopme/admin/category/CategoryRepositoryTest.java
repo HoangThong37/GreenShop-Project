@@ -34,8 +34,8 @@ public class CategoryRepositoryTest {
 	
 	@Test
 	public void testCreateSubCategory() {
-		Category parent = new Category(12);
-		Category cam = new Category("Memory", parent);
+		Category parent = new Category(9);
+		Category cam = new Category("Gaming Laptops", parent);
 		//Category smartphone = new Category("Smartphone", parent);
 	    //repository.saveAll(List.of(cam, smartphone));
 		 Category saveCategory = repository.save(cam);
