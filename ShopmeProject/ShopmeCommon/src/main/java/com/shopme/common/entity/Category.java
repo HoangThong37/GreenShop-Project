@@ -64,6 +64,21 @@ public class Category {
 		this.image = "default.png";
 	}
 	
+	
+	public static Category copyIdAndName(Category category) {
+		Category copCategory = new Category();
+		copCategory.setId(category.getId());
+		copCategory.setName(category.getName());
+		return copCategory;
+	}
+	
+	public static Category copyIdAndName(Integer id, String name) {
+		Category copyCategory = new Category();
+		copyCategory.setId(id);
+		copyCategory.setName(name);
+		return copyCategory;
+	}
+
 	public Category(String name, Category parent) {
 		this(name);
 		//this.name = name;

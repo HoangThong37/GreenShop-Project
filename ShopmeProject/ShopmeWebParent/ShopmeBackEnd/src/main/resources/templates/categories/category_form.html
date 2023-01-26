@@ -11,6 +11,7 @@
 		<div>
 			<h2>Manage Categories | [[${pageTitle}]]</h2>
 		</div>
+		
 		<div>
 			<form th:action="@{/categories/save}" method="post"
 				style="max-width: 500px; margin: 0 auto" th:object="${category}"
@@ -51,7 +52,8 @@
 						<label class="col-sm-4 col-form-label">Image:</label>
 						<div class="col-sm-8">
 							<input type="hidden" th:field="*{image}" /> <input type="file"
-								id="fileImage" name="image" accept="image/png, image/jpeg"
+								id="fileImage" name="fileImage" accept="image/png, image/jpeg"
+								required
 								class="mb-2" /> 
 								<img id="thumbnail" alt="Image preview" th:src="@{/images/image-thumbnail.png}"
 								class="img-fluid" />
