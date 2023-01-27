@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import com.lowagie.text.pdf.AcroFields.Item;
 import com.shopme.common.entity.Category;
 
 @DataJpaTest
@@ -68,6 +69,12 @@ public class CategoryRepositoryTest {
 			}
 		}
 	  }
+	}
+	
+	@Test
+	public void testMethodListRootCategories() {
+		List<Category> categories = repository.findRootCategories();
+		categories.forEach(item -> System.out.println(item.getName()));
 	}
 
 }

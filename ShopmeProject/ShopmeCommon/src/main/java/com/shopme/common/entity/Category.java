@@ -78,6 +78,24 @@ public class Category {
 		copyCategory.setName(name);
 		return copyCategory;
 	}
+	
+	public static Category copyFull(Category category) {
+		Category copyCategories = new Category();
+		copyCategories.setId(category.getId());
+		copyCategories.setName(category.getName());
+		copyCategories.setAlias(category.getAlias());
+		copyCategories.setImage(category.getImage());
+		copyCategories.setEnabled(category.isEnabled());
+		
+		return copyCategories;
+	}
+	
+	public static Category copyFull(Category category, String name) {
+		Category copyCategories = Category.copyFull(category);
+		copyCategories.setName(category.getName());
+
+		return copyCategories;
+	}
 
 	public Category(String name, Category parent) {
 		this(name);
@@ -142,5 +160,7 @@ public class Category {
 	}
 	
 
-	
+	public String getImagePath() {
+		return "/category-images/" + this.id + "/" + this.image;
+	}
 }

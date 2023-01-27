@@ -53,6 +53,7 @@ public class CategoryController {
 		Category saveCategory = service.save(category);
 		
 		String uploadDir = "../category-images/" + saveCategory.getId();
+//		FileUploadUtil.cleanDir(uploadDir);
 		FileUploadUntil.saveFile(uploadDir, fileName, multipartFile);
 		
 		ra.addFlashAttribute("message", "The category has been saved successfully");
