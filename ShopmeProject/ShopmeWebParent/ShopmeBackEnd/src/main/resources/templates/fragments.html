@@ -22,16 +22,43 @@
 		<p>Bem Shop - Copyright &copy; Bem</p>
 	</div>
 
-	<th th:fragment="column_link(fieldName, columnLabel, removeTag)"
-		th:remove="${removeTag}"><a class="text-white"
-		th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-			[[${columnLabel}]] </a> <span th:if="${sortField == fieldName}"
-		th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+	<th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+		<a class="text-white"
+			th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName}  +'&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">
+			[[${columnLabel}]]
+		</a>								
+		<span th:if="${sortField == fieldName}"
+			th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}" ></span>					
 	</th>
+	
+	
 
 	<a th:fragment="page_link(pageNum, label)" class="page-link"
-		th:href="@{'/users/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]
+		th:href="@{${moduleURL} + '/page/ + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]
 	</a>
+	
+	
+	<div th:fragment="search_form_and_message()">
+		<form th:action="@{${moduleURL} + '/page/1'}" class="form-inline m-3">
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
+			
+			Filter:&nbsp;
+			<input type="search" name="keyword" th:value="${keyword}" class="form-control" required/>
+			&nbsp;&nbsp;
+			<button type="submit" class="btn btn-primary">
+				<i class="fas fa-search"></i>
+			</button>
+			&nbsp;&nbsp;
+			<button type="button" class="btn btn-secondary" onclick="clearFilter()">
+				<i class="fas fa-eraser"></i>
+			</button>
+		</form>
+		
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			[[${message}]]
+		</div>		
+	</div>	
 
 	<div th:fragment="status(enabled, entityName, entityURL)"
 		th:remove="tag">
@@ -49,9 +76,13 @@
 			th:title="'Edit this ' + ${entityName}"></a>
 	</div>
 
-	<div th:fragment="delete(entityName, removeURL)" th:remove="tag">
-		<a class="fas fa-trash fa-2x icon-dark" th:href="@{${removeURL}}"
-			th:title="'Remove this ' + ${entityName}"></a>
+	<div th:fragment="delete(entityName, entityId, deleteURL, visible)" th:remove="tag">
+		<th:block th:if="${visible}">		
+		<a class="fas fa-trash fa-2x icon-dark link-delete" 
+			th:href="@{${deleteURL}}"
+			th:entityId="${entityId}"
+			th:title="'Delete this ' + ${entityName}"></a>
+		</th:block>	
 	</div>
 
 

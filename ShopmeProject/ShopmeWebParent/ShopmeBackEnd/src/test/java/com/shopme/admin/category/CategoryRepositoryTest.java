@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
 import com.lowagie.text.pdf.AcroFields.Item;
@@ -73,7 +74,7 @@ public class CategoryRepositoryTest {
 	
 	@Test
 	public void testMethodListRootCategories() {
-		List<Category> categories = repository.findRootCategories();
+		List<Category> categories = repository.findRootCategories(Sort.by("name").ascending());
 		categories.forEach(item -> System.out.println(item.getName()));
 	}
 

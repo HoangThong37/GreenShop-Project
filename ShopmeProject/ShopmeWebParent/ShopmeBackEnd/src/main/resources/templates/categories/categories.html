@@ -14,24 +14,7 @@
 				class="fa-solid fa-file-csv fa-2x icon-dark mr-2"></a>
 		</div>
 
-		<div th:if="${message != null}"
-			class="alert alert-success text-center">[[${message}]]</div>
-
-		<div>
-			<form th:action="@{/categories/page/1}" class="form-inline m-3">
-				Filter:&nbsp; <input type="search" name="keyword"
-					th:value="${keyword}" class="form-control" required />
-				&nbsp;&nbsp;
-				<button type="submit" class="btn btn-primary">
-					<i class="fas fa-search"></i>
-				</button>
-				&nbsp;
-				<button type="button" class="btn btn-secondary"
-					onclick="clearFilter()">
-					<i class="fas fa-eraser"></i>
-				</button>
-			</form>
-		</div>
+		<div th:replace="fragments :: search_form_and_message" />
 
 		<div class="full-details">
 			<table
@@ -40,34 +23,53 @@
 					<tr>
 						<th>ID</th>
 						<th>Category Image</th>
-						<th>Category Name</th>
-						<th>Alias</th>
+						<th
+							th:replace="fragments :: column_link('name', 'Category Name', 'none')" />
+						<th class="hideable-column">Alias</th>
 						<th>Enabled</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="category : ${listCategories}">
-						<td>[[${category.id}]]</td>
-						<td>
-						    <img th:src="@{${category.imagePath}}" />
-						</td>
-						<td>[[${category.name}]]</td>
-						<td>[[${category.alias}]]</td>
-						<td>
-							<div
-								th:replace="fragments :: status(${category.enabled}, 'category', '/categories/' + ${category.id})" />
-						</td>
-						<td>
-							<div
-								th:replace="fragments :: edit('category', '/categories/edit/' + ${category.id})" />
-							&nbsp;
-							<div th:replace="fragments :: delete('category', '/categories/remove/' + ${category.id})" />
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+				<tr th:each="cat : ${listCategories}">
+					<td>[[${cat.id}]]</td>
+					<td>
+						<img th:src="@{${cat.imagePath}}" style="width: 100px" class="img-fluid"/>
+					</td>
+					<td>[[${cat.name}]]</td>
+					<td class="hideable-column">[[${cat.alias}]]</td>
+					<td>
+						<div th:replace="fragments :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})" />
+					</td>
+					<td>
+						<div th:replace="fragments :: edit('category', '/categories/edit/' + ${cat.id})" />
+						&nbsp; 
+						<div th:replace="fragments :: delete('category', ${cat.id}, '/categories/delete/' + ${cat.id}, ${!cat.hasChildren})" />						
+					</td>					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="less-details">
+		<div th:each="cat : ${listCategories}" class="row m-1">
+			<div class="col-4">
+				<img th:src="@{${cat.imagePath}}" style="width: 100px" class="img-fluid"/>			
+			</div>
+			<div class="col-8">
+				<div>[[${cat.name}]]</div>
+				<div class="mt-2">
+					<div th:replace="fragments :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})" />
+					&nbsp; 			
+					<div th:replace="fragments :: edit('category', '/categories/edit/' + ${cat.id})" />
+					&nbsp;
+					<div th:replace="fragments :: delete('category', ${cat.id}, '/categories/delete/' + ${cat.id}, ${!cat.hasChildren})" />
+				</div>
+			</div>
+			<div>&nbsp;</div>
+		</div>	
+	</div>
+		
 
 		<div th:replace="fragments :: footer"></div>
 </body>

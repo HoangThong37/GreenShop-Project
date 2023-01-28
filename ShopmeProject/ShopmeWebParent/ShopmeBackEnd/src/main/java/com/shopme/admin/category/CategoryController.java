@@ -29,11 +29,42 @@ public class CategoryController {
 	private CategoryService service;
 
 	@GetMapping("/categories")
-	public String listAll(Model model) {
-		List<Category> listCategories = service.listAll();
+	public String listFirstPage(String sortDir, Model model) {
+		return listByPage(1, sortDir, null, model);
+	}
+	
+	@GetMapping("/categories/page/{pageNum}") 
+	public String listByPage(@PathVariable(name = "pageNum") int pageNum, 
+			String sortDir,	String keyword,	Model model) {
+		if (sortDir ==  null || sortDir.isEmpty()) {
+			sortDir = "asc";
+		}
+		
+		CategoryPageInfo pageInfo = new CategoryPageInfo();
+		List<Category> listCategories = service.listByPage(pageInfo, pageNum, sortDir, keyword);
+		
+		long startCount = (pageNum - 1) * CategoryService.ROOT_CATEGORIES_PER_PAGE + 1;
+		long endCount = startCount + CategoryService.ROOT_CATEGORIES_PER_PAGE - 1;
+		if (endCount > pageInfo.getTotalElements()) {
+			endCount = pageInfo.getTotalElements();
+		}
+		
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		
+		model.addAttribute("totalPages", pageInfo.getTotalPages());
+		model.addAttribute("totalItems", pageInfo.getTotalElements());
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("sortField", "name");
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);		
+		
 		model.addAttribute("listCategories", listCategories);
-
-		return "categories/categories";
+		model.addAttribute("reverseSortDir", reverseSortDir);
+		model.addAttribute("moduleURL", "/categories");
+		
+		return "categories/categories";		
 	}
 
 	@GetMapping("/categories/new")
@@ -78,7 +109,7 @@ public class CategoryController {
 			model.addAttribute("pageTitle", "Edit Category (ID: " + id + ")");
 			model.addAttribute("listCategories", listCategories);
 
-			return "/categories/category_form";
+			return "categories/category_form";
 		} catch (CategoryNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/categories";
