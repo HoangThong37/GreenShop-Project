@@ -115,5 +115,17 @@ public class CategoryController {
 			return "redirect:/categories";
 		}
 	}
+	
+	// code update category enabled
+	@GetMapping("/categories/{id}/enabled/{status}")
+	public String updateCategoryEnabledStatus(@PathVariable("id") Integer id,
+			@PathVariable("status") boolean enabled,
+			RedirectAttributes redirectAttributes) {
+		service.updateCategoryEnabledStatus(id, enabled);
+		String status = enabled ? "enabled" : "disabled";
+		String message = "The user ID " + id + " has been " + status;
+		redirectAttributes.addFlashAttribute("message", message);
+		return "redirect:/categories";
+	}
 
 }
