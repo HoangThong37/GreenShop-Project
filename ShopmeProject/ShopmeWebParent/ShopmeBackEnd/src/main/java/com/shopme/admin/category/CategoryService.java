@@ -2,6 +2,7 @@ package com.shopme.admin.category;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -9,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Category;
 
 @Service
@@ -95,6 +97,15 @@ public class CategoryService {
 			
 			result.add(Category.copyIdAndName(subCategory.getId(), name));
 			listSubCategoriesUsedInForm(result ,subCategory, newSubLevel);
+		}
+	}
+
+	public Category get(Integer id) throws CategoryNotFoundException {
+		//return repository.findById(id).get();
+		try {
+			return repository.findById(id).get();
+		} catch (NoSuchElementException e) {
+			throw new CategoryNotFoundException("Could not find any category with ID : " + id);
 		}
 	}
 }

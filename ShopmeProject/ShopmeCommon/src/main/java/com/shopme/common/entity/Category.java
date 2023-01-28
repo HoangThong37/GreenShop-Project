@@ -159,8 +159,10 @@ public class Category {
 		this.children = children;
 	}
 	
-
+    @Transient
 	public String getImagePath() {
+    	if(this.id == null) return "/images/image-thumbnail.png";
+    		
 		return "/category-images/" + this.id + "/" + this.image;
 	}
 }
