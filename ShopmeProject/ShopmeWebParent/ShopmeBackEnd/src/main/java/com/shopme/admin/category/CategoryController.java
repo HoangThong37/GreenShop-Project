@@ -123,8 +123,25 @@ public class CategoryController {
 			RedirectAttributes redirectAttributes) {
 		service.updateCategoryEnabledStatus(id, enabled);
 		String status = enabled ? "enabled" : "disabled";
-		String message = "The user ID " + id + " has been " + status;
+		String message = "The category ID " + id + " has been " + status;
 		redirectAttributes.addFlashAttribute("message", message);
+		return "redirect:/categories";
+	}
+	
+	// code delete category
+	@GetMapping("/categories/delete/{id}")
+	public String deleteCategory(@PathVariable(name = "id") Integer id,
+			Model model,
+			RedirectAttributes redirectAttributes) {
+		try {
+			service.delete(id);
+			String categoryDir = "../category-images/" + id; // delete image
+			FileUploadUntil.removeDir(categoryDir);
+			
+			redirectAttributes.addFlashAttribute("message", "The category ID " + id + " deleted successfully");
+		} catch (CategoryNotFoundException ex) {
+			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+		}
 		return "redirect:/categories";
 	}
 

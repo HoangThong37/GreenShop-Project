@@ -40,17 +40,6 @@ public class Category {
 	@OneToMany(mappedBy = "parent")
 	private Set<Category> children = new HashSet<>();
 	
-	public boolean isHasChildren() {
-		return hasChildren;
-	}
-
-	public void setHasChildren(boolean hasChildren) {
-		this.hasChildren = hasChildren;
-	}
-
-	@Transient
-	private boolean hasChildren;
-	
 	public Category() {
 	}
 	
@@ -86,6 +75,7 @@ public class Category {
 		copyCategories.setAlias(category.getAlias());
 		copyCategories.setImage(category.getImage());
 		copyCategories.setEnabled(category.isEnabled());
+		copyCategories.setHasChildren(category.getChildren().size() > 0);
 		
 		return copyCategories;
 	}
@@ -156,7 +146,7 @@ public class Category {
 	}
 
 	public void setChildren(Set<Category> children) {
-		this.children = children;
+		this.children = children; 
 	}
 	
     @Transient
@@ -165,4 +155,15 @@ public class Category {
     		
 		return "/category-images/" + this.id + "/" + this.image;
 	}
+    
+	public boolean isHasChildren() {
+		return hasChildren;
+	}
+
+	public void setHasChildren(boolean hasChildren) {
+		this.hasChildren = hasChildren;
+	}
+
+	@Transient
+	private boolean hasChildren;
 }

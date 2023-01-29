@@ -22,7 +22,7 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
 
 	public Category findByAlias(String alias);
 	
-	public Long countById(Integer id);
+	public Long countById(Integer id); // count id -> method delete
 	
 	// phân trang
 	@Query("SELECT c FROM Category c WHERE c.parent.id is NULL")
