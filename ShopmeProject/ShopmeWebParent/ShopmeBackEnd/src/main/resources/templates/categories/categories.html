@@ -69,8 +69,27 @@
 			<div>&nbsp;</div>
 		</div>	
 	</div>
-		
-
+	    <div th:replace="modal-fragments :: confirm_modal"></div>
+	
 		<div th:replace="fragments :: footer"></div>
+	
+		<script type="text/javascript">
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				link = $(this);
+				//alert($(this).attr("href"));
+
+				entityId = link.attr("entityId");
+				$("#yesButton").attr("href", link.attr("href"));
+				$("#confirmText").text("Are you sure you want to delete this category ID " + entityId + " ? ");
+				$("#confirmModal").modal();
+
+			})
+		});
+		function clearFilter() {
+			window.location = "[[@{/categories}]]";
+		}
+	</script>
 </body>
 </html>
