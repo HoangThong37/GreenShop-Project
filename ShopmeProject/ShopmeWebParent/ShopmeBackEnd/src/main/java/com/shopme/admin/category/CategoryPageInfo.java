@@ -1,8 +1,8 @@
 package com.shopme.admin.category;
 
 public class CategoryPageInfo {
-	private int totalPages;
-	private long totalElements;
+	private int totalPages; //  toàn bộ page
+	private long totalElements; // toàn bộ phần tử
 	
 	public int getTotalPages() {
 		return totalPages;

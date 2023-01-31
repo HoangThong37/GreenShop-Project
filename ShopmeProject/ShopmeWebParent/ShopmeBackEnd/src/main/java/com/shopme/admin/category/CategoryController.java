@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -30,7 +31,9 @@ public class CategoryController {
 	
 	@GetMapping("/categories/page/{pageNum}") 
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, 
-			String sortDir,	String keyword,	Model model) {
+			@Param("sortDir") String sortDir,	
+			@Param("keyword") String keyword,
+			Model model) {
 		if (sortDir ==  null || sortDir.isEmpty()) {
 			sortDir = "asc";
 		}
@@ -59,7 +62,10 @@ public class CategoryController {
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("moduleURL", "/categories");
 		
-		return "categories/categories";		
+		return "/categories/categories";		
+		
+		
+		
 	}
 
 	@GetMapping("/categories/new")
@@ -139,5 +145,4 @@ public class CategoryController {
 		}
 		return "redirect:/categories";
 	}
-
 }

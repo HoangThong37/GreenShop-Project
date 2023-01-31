@@ -31,10 +31,10 @@ public class CategoryService {
 
 	public List<Category> listByPage(CategoryPageInfo pageInfo, int pageNum, String sortDir,
 			String keyword) {
-		Sort sort = Sort.by("name");
+		Sort sort = Sort.by("name");  // search field name
 		
 		if (sortDir.equals("asc")) {
-			sort = sort.ascending();
+			sort = sort.ascending(); // tăng
 		} else if (sortDir.equals("desc")) {
 			sort = sort.descending();
 		}
@@ -59,12 +59,10 @@ public class CategoryService {
 			for (Category category : searchResult) {
 				category.setHasChildren(category.getChildren().size() > 0);
 			}
-			
 			return searchResult;
-			
 		} else {
 			return listHierarchicalCategories(rootCategories, sortDir);
-		} }
+		} } 
 	
 	private List<Category> listHierarchicalCategories(List<Category> rootCategories, String sortDir) {
 		List<Category> hierarchicalCategories = new ArrayList<>();

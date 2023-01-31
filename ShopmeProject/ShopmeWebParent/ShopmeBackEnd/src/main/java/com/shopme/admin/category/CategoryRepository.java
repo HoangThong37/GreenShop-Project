@@ -32,7 +32,7 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
 	@Modifying // cập nhật dữ liệu db
 	public void updateEnabledAndStatus(Integer id, boolean enabled);
 	
-	//seach
+	//seach 
 	@Query("SELECT c FROM Category c WHERE c.name LIKE %?1%")
 	public Page<Category> search(String keyword, Pageable pageable);
 }
