@@ -3,6 +3,8 @@ package com.shopme.admin.category;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUntil;
+import com.shopme.admin.user.export.UserCsvExporter;
 import com.shopme.common.entity.Category;
+import com.shopme.common.entity.User;
 
 @Controller
 public class CategoryController {
@@ -144,5 +148,13 @@ public class CategoryController {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 		}
 		return "redirect:/categories";
+	}
+	
+	// code export csv list category
+	@GetMapping("/categories/export/csv")
+	public void exportCategoryByCsv(HttpServletResponse response) throws IOException {
+		List<Category> listCategories = service.listCategoriesUsedInForm();
+		CategoryCsvExporter category = new CategoryCsvExporter();
+		category.export(listCategories, response);
 	}
 }

@@ -68,7 +68,6 @@
 						th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
 						<a
 						th:replace="fragments :: page_link(${currentPage - 1}, 'Previous')"></a>
-
 					</li>
 					<li
 						th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
@@ -116,7 +115,7 @@
 		<a th:if="${enabled == true}"
 			class="fas fa-check-circle fa-2x icon-green"
 			th:href="@{${entityURL} + '/enabled/false'}"
-			th:title="'Disable this ' + ${entityName}"></a> <a
+			th:title="'Disable this ' + ${entityName}"></a><a
 			th:if="${enabled == false}" class="fas fa-circle fa-2x icon-dark"
 			th:href="@{${entityURL} + '/enabled/true'}"
 			th:title="'Enable this ' + ${entityName}"></a>
@@ -135,7 +134,6 @@
 				th:title="'Delete this ' + ${entityName}"></a>
 		</th:block>
 	</div>
-
 
 </body>
 
