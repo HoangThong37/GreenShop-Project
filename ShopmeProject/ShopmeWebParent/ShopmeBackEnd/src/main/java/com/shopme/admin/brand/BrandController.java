@@ -35,4 +35,6 @@ public class BrandController {
 		model.addAttribute("brand", new Brand());
 		return "brands/brands_form";
 	}
+	
+	
 }
