@@ -1,5 +1,6 @@
 package com.shopme.common.entity;
 
+import java.beans.Transient;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.jar.Attributes.Name;
@@ -84,4 +85,12 @@ public class Brand {
 	}
 	
 	
+
+    
+	@Transient
+	public String getLogoPath() {
+		if (this.id == null) return "/images/image-thumbnail.png";
+		
+		return "/brand-logos/" + this.id + "/" + this.logo;		
+	}
 }
