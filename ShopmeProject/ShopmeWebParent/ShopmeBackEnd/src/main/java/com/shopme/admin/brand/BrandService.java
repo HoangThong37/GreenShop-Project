@@ -41,5 +41,23 @@ public class BrandService {
 		}
 	}
 	
+	public String checkUnique(Integer id, String name) {
+		boolean isCreatingNew = (id == 0 || id == null); // chưa có brand id
+		Brand brandName = repo.findByName(name); // lấy name brand
+		
+		if (isCreatingNew) {
+			 if (brandName != null) {
+				return "Duplicate";
+			}
+		} else { // có id rồi
+			if (brandName != null && brandName.getId() != id ) {
+				return "Duplicate";
+			}
+		}
+		return "OK";
+	}
+	
+	
+	
 
 }
