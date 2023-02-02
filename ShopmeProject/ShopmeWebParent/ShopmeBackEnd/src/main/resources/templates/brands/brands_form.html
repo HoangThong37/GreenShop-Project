@@ -10,7 +10,7 @@
 	</div>
 			
 	<form th:action="@{/brands/save}" method="post" style="max-width: 500px; margin: 0 auto" th:object="${brand}"
-		enctype="multipart/form-data" ; onsubmit="return checkUnique(this);">
+		enctype="multipart/form-data" ; onsubmit="checkUnique(this)">
 		<input type="hidden" th:field="*{id}" />
 	<div class="border border-secondary rounded p-3">
 		<div class="form-group row">
@@ -29,7 +29,7 @@
 					class="mb-2" />
 				
 				<div class="mt-2">
-					<img id="thumbnail" alt="Image preview" th:src="@{${brand.logoPath}}"
+					<img id="thumbnail" alt="Image preview" th:src="@{${brand.logoPath}}" style="width: 100px"
 						class="img-fluid" />
 				</div>
 			</div>
@@ -69,7 +69,7 @@
 	
 </div>
 <script type="text/javascript">
-MAX_FILE_SIZE =102400;
+
 	moduleURL = "[[@{/brands}]]";
 	
 	$(document).ready(function() {
