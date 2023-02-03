@@ -1,4 +1,4 @@
-package com.shopme.admin.category;
+package com.shopme.admin.export.category;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import com.shopme.admin.user.export.AbstractExporter;
+import com.shopme.admin.export.AbstractExporter;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.User;
 

@@ -18,41 +18,44 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUntil;
-import com.shopme.admin.user.export.UserCsvExporter;
+import com.shopme.admin.export.category.CategoryCsvExporter;
+import com.shopme.admin.export.category.CategoryExcelExporter;
+import com.shopme.admin.export.category.CategoryPdfExporter;
 import com.shopme.common.entity.Category;
-import com.shopme.common.entity.User;
 
 @Controller
 public class CategoryController {
 
 	@Autowired
-	private CategoryService service;
+	private CategoryService categoryService;
 
 	@GetMapping("/categories")
-	public String listFirstPage(String sortDir, Model model) {
+	public String listFirstPage(@Param("sortDir") String sortDir, Model model) {
 		return listByPage(1, sortDir, null, model);
 	}
-	
-	@GetMapping("/categories/page/{pageNum}") 
-	public String listByPage(@PathVariable(name = "pageNum") int pageNum, 
-			@Param("sortDir") String sortDir,	
-			@Param("keyword") String keyword,
-			Model model) {
-		if (sortDir ==  null || sortDir.isEmpty()) {
+
+	@GetMapping("/categories/page/{pageNum}")
+	public String listByPage(@PathVariable(name = "pageNum") int pageNum, @Param("sortDir") String sortDir,
+			@Param("keyword") String keyword, Model model) {
+
+		if (sortDir == null || sortDir.isEmpty()) {
 			sortDir = "asc";
 		}
-		
 		CategoryPageInfo pageInfo = new CategoryPageInfo();
-		List<Category> listCategories = service.listByPage(pageInfo, pageNum, sortDir, keyword);
-		
+
+		List<Category> listCategories = categoryService.listByPage(pageInfo, pageNum, sortDir, keyword);
+
 		long startCount = (pageNum - 1) * CategoryService.ROOT_CATEGORIES_PER_PAGE + 1;
 		long endCount = startCount + CategoryService.ROOT_CATEGORIES_PER_PAGE - 1;
 		if (endCount > pageInfo.getTotalElements()) {
 			endCount = pageInfo.getTotalElements();
 		}
-		
+
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-		
+
+		model.addAttribute("listCategories", listCategories);
+		model.addAttribute("reverseSortDir", reverseSortDir);
+
 		model.addAttribute("totalPages", pageInfo.getTotalPages());
 		model.addAttribute("totalItems", pageInfo.getTotalElements());
 		model.addAttribute("currentPage", pageNum);
@@ -60,101 +63,120 @@ public class CategoryController {
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);		
-		
-		model.addAttribute("listCategories", listCategories);
-		model.addAttribute("reverseSortDir", reverseSortDir);
-		model.addAttribute("moduleURL", "/categories");
-		
-		return "/categories/categories";		
-		
-		
-		
+		model.addAttribute("endCount", endCount);
+
+		return "categories/categories";
 	}
 
 	@GetMapping("/categories/new")
 	public String newCategory(Model model) {
 
-		List<Category> listCategories = service.listCategoriesUsedInForm();
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
 
+		model.addAttribute("category", new Category());
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("pageTitle", "Create New Category");
-		model.addAttribute("category", new Category());
+
 		return "categories/category_form";
+
 	}
 
 	@PostMapping("/categories/save")
-	public String saveCategory(Category category, RedirectAttributes ra,
-			@RequestParam("fileImage") MultipartFile multipartFile) throws IOException {
+	public String saveCategory(Category category, @RequestParam("fileImage") MultipartFile multipartFile,
+			RedirectAttributes ra) throws IOException {
+
 		if (!multipartFile.isEmpty()) {
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
 			category.setImage(fileName);
 
-			Category saveCategory = service.save(category);
-			String uploadDir = "../category-images/" + saveCategory.getId();
-			
+			Category savedCategory = categoryService.save(category);
+			String uploadDir = "../category-images/" + savedCategory.getId();
+
 			FileUploadUntil.cleanDir(uploadDir);
 			FileUploadUntil.saveFile(uploadDir, fileName, multipartFile);
 		} else {
-			service.save(category);
+			categoryService.save(category);
 		}
-		ra.addFlashAttribute("message", "The category has been saved successfully");
+
+		ra.addFlashAttribute("messageSuccess", "The category has been saved successfully.");
 		return "redirect:/categories";
 	}
 
-	// code update category
 	@GetMapping("/categories/edit/{id}")
-	public String editCategory(@PathVariable(name = "id") Integer id, Model model,
-			RedirectAttributes redirectAttributes) {
+	public String editCategory(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes ra) {
+
 		try {
-			Category category = service.get(id);
-			List<Category> listCategories = service.listCategoriesUsedInForm();
+			Category category = categoryService.get(id);
+			List<Category> listCategories = categoryService.listCategoriesUsedInForm();
 
 			model.addAttribute("category", category);
-			model.addAttribute("pageTitle", "Edit Category (ID: " + id + ")");
 			model.addAttribute("listCategories", listCategories);
+			model.addAttribute("pageTitle", "Edit Category (ID: " + id + ")");
 
 			return "categories/category_form";
 		} catch (CategoryNotFoundException ex) {
-			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+
+			ra.addFlashAttribute("messageError", ex.getMessage());
 			return "redirect:/categories";
 		}
 	}
-	
-	// code update category enabled
+
 	@GetMapping("/categories/{id}/enabled/{status}")
-	public String updateCategoryEnabledStatus(@PathVariable("id") Integer id,
-			@PathVariable("status") boolean enabled,
+	public String updateCategoryEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled,
 			RedirectAttributes redirectAttributes) {
-		service.updateCategoryEnabledStatus(id, enabled);
+
+		categoryService.updateCategoryEnabledStatus(id, enabled);
 		String status = enabled ? "enabled" : "disabled";
 		String message = "The category ID " + id + " has been " + status;
-		redirectAttributes.addFlashAttribute("message", message);
+
+		redirectAttributes.addFlashAttribute("messageSuccess", message);
+
 		return "redirect:/categories";
 	}
-	
-	// code delete category
+
 	@GetMapping("/categories/delete/{id}")
-	public String deleteCategory(@PathVariable(name = "id") Integer id,
-			Model model,
+	public String deleteCategory(@PathVariable(name = "id") Integer id, Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
-			service.delete(id);
-			String categoryDir = "../category-images/" + id; // delete image
+			categoryService.delete(id);
+
+			String categoryDir = "../category-images/" + id;
+
 			FileUploadUntil.removeDir(categoryDir);
-			
-			redirectAttributes.addFlashAttribute("message", "The category ID " + id + " deleted successfully");
+
+			redirectAttributes.addFlashAttribute("messageSuccess",
+					"The category ID " + id + " has been deleted successfully");
+
 		} catch (CategoryNotFoundException ex) {
-			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+
+			redirectAttributes.addFlashAttribute("messageError", ex.getMessage());
 		}
+
 		return "redirect:/categories";
 	}
-	
+
 	// code export csv list category
 	@GetMapping("/categories/export/csv")
 	public void exportCategoryByCsv(HttpServletResponse response) throws IOException {
-		List<Category> listCategories = service.listCategoriesUsedInForm();
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
 		CategoryCsvExporter category = new CategoryCsvExporter();
 		category.export(listCategories, response);
+	}
+
+	// code export export list category
+	@GetMapping("/categories/export/excel")
+	public void exportToExcel(HttpServletResponse response) throws IOException {
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+		CategoryExcelExporter exporter = new CategoryExcelExporter();
+		exporter.export(listCategories, response);
+	}
+	
+	// code export export list category
+	@GetMapping("/categories/export/pdf")
+	public void exportToPDF(HttpServletResponse response) throws IOException {
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+		CategoryPdfExporter exporter = new CategoryPdfExporter();
+		exporter.export(listCategories, response);
 	}
 }

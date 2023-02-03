@@ -19,7 +19,7 @@ import com.shopme.common.entity.User;
 @Transactional
 public class BrandService {
 	
-	public static final int BRANDS_PER_PAGE = 5;
+	public static final int BRANDS_PER_PAGE = 10;
 	
 	@Autowired
 	private BrandRepository repo;
@@ -35,11 +35,12 @@ public class BrandService {
 	public Page<Brand> listByPage(int number, String sortField, String sortDir, String keyword) {
 		// sortDir : asc or desc
 		Sort sort = Sort.by(sortField);
+		
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		Pageable pageable = PageRequest.of(number - 1, BRANDS_PER_PAGE, sort);
 
 		if (keyword != null) {
-			return repo.findAll(keyword, pageable);
+			return repo.search(keyword, pageable);
 		}
 		return repo.findAll(pageable);
 	}

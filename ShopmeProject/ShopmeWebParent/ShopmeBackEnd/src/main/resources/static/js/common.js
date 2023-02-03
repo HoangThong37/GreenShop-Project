@@ -3,8 +3,10 @@ $(document).ready(function() {
 		e.preventDefault();
 		document.logoutForm.submit();
 	});
+	
 	customizeDropDownMenu();
-});
+}); 
+
 
 function customizeDropDownMenu() {
 	$(".navbar .dropdown").hover(
@@ -17,6 +19,21 @@ function customizeDropDownMenu() {
 	);
 
 	$(".dropdown > a").click(function() {
-		location.href = this.href; 
+		location.href = this.href;
 	});
+} 
+
+
+function showModalDialog(title, message) {
+	$("#modalTitle").text(title);
+	$("#modalBody").text(message);
+	$("#modalDialog").modal();
+}
+
+function showErrorModal(message) {
+	showModalDialog("Error", message);
+}
+
+function showWarningModal(message) {
+	showModalDialog("Warning", message);
 }
