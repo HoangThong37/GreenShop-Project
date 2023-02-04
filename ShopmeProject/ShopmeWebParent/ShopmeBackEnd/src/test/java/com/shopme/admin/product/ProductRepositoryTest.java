@@ -93,4 +93,15 @@ public class ProductRepositoryTest {
 	 // assertThat(productSave).isNotNull();
 
 	}
+	@Test
+	public void test() {
+		Integer idProduct = 4;
+		repo.deleteById(idProduct);
+		
+		Optional<Product> product =repo.findById(4);
+		System.out.println(product + "coi có ko");
+	 // assertThat(productSave).isNotNull();
+
+	}
+	
 }
