@@ -17,7 +17,6 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "categories")
-
 public class Category implements Serializable{
 	
 	@Id
