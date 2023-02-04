@@ -84,8 +84,8 @@ public class ProductRepositoryTest {
 	}
 	
 	@Test
-	public void testDeleteProduct() {
-		Integer idProduct = 4;
+	public void test2DeleteProduct() {
+		Integer idProduct = 5;
 		repo.deleteById(idProduct);
 		
 		Optional<Product> product =repo.findById(4);
