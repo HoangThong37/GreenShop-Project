@@ -8,9 +8,10 @@
 		<h2>Manage Brands | [[${pageTitle}]]</h2>	
 	</div>
 
-	<form th:action="@{/brands/save}" method="post" style="max-width: 500px; margin: 0 auto"
-		enctype="multipart/form-data"
-		th:object="${brand}";  onsubmit="">
+	<form th:action="@{/brands/save}" method="post" onsubmit="return checkUnique(this)"
+	    style="max-width: 500px; margin: 0 auto"
+		
+		th:object="${brand}">
 		<input type="hidden" th:field="*{id}" />
 	<div class="border border-secondary rounded p-3">
 		<div class="form-group row">

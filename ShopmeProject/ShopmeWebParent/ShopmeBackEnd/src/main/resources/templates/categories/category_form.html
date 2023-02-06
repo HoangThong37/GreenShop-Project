@@ -8,9 +8,9 @@
 		<h2>Manage Categories | [[${pageTitle}]]</h2>	
 	</div>
 
-	<form th:action="@{/categories/save}" method="post" style="max-width: 500px; margin: 0 auto"
-		enctype="multipart/form-data"
-		onsubmit=""
+	<form th:action="@{/categories/save}" method="post" onsubmit="return checkUnique(this)"
+	style="max-width: 500px; margin: 0 auto"
+		
 		th:object="${category}">
 		<input type="hidden" th:field="*{id}" />
 	<div class="border border-secondary rounded p-3">

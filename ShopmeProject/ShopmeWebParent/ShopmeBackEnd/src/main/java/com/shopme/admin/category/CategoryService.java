@@ -20,9 +20,10 @@ import org.springframework.stereotype.Service;
 import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.User;
+import com.shopme.admin.category.CategoryRepository;
 
 @Service
-@Transactional
+//@Transactional
 public class CategoryService {
 	public static final int ROOT_CATEGORIES_PER_PAGE = 4;
 
@@ -176,7 +177,7 @@ public class CategoryService {
 	
 	public String checkUnique(Integer id, String name, String alias) {
 		boolean isCreatingNew = (id == null || id == 0);
-		
+		//boolean isCreatingNew = (id == null || id == 0);
 		Category categoryByName = repository.findByName(name);
 		
 		if (isCreatingNew) {

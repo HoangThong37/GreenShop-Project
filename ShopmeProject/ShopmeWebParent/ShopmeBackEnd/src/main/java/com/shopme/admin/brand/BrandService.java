@@ -13,10 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.shopme.common.entity.Brand;
-import com.shopme.common.entity.User;
+import com.shopme.admin.brand.BrandRepository;
 
 @Service
-@Transactional
+//@Transactional
 public class BrandService {
 	
 	public static final int BRANDS_PER_PAGE = 10;
@@ -63,21 +63,20 @@ public class BrandService {
 	}
 	
 	public String checkUnique(Integer id, String name) {
-		boolean isCreatingNew = (id == 0 || id == null); // chưa có brand id
-		Brand brandName = repo.findByName(name); // lấy name brand
-		
+		// TODO Auto-generated method stub
+		boolean isCreatingNew = (id == null || id == 0);
+		Brand brandByName = repo.findByName(name);
+
 		if (isCreatingNew) {
-			 if (brandName != null) {
-				return "Duplicate";
-			}
-		} else { // có id rồi
-			if (brandName != null && brandName.getId() != id ) {
+			if (brandByName != null) return "Duplicate";
+		} else {
+			if (brandByName != null && brandByName.getId() != id) {
 				return "Duplicate";
 			}
 		}
+
 		return "OK";
 	}
-	
 	
 	
 
