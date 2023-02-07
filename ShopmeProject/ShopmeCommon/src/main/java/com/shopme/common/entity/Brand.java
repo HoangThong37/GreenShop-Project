@@ -84,9 +84,6 @@ public class Brand {
 		this.categories = categories;
 	}
 	
-	
-
-    
 	@Transient
 	public String getLogoPath() {
 		if (this.id == null) return "/images/image-thumbnail.png";

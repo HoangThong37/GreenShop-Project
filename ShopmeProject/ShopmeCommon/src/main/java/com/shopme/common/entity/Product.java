@@ -1,7 +1,10 @@
 package com.shopme.common.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -54,6 +58,9 @@ public class Product {
 	 private float height;
 	 private float weight; // cân nặng
 	 
+	 @Column(name = "main_image", nullable = false)
+	 private String mainImage; //ảnh chính
+	 
 	 @ManyToOne
 	 @JoinColumn(name="category_id")
 	 private Category category;
@@ -62,6 +69,17 @@ public class Product {
 	 @JoinColumn(name="brand_id")
 	 private Brand brand;
 	 
+	 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL) // one : brand | many : product
+	 private Set<ProductImage> images = new HashSet<>();
+
+	 
+	 
+	public Set<ProductImage> getImages() {
+		return images;
+	}
+	public void setImages(Set<ProductImage> images) {
+		this.images = images;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -170,11 +188,19 @@ public class Product {
 	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
-	
+	public String getMainImage() {
+		return mainImage;
+	}
+	public void setMainImage(String mainImage) {
+		this.mainImage = mainImage;
+	}
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + "]";
 	}
 	 
-	 
+	public void addExtraImages(String imageName) { // thêm image bổ sung
+		this.images.add(new ProductImage(imageName, this));
+		//(new ProductImage());
+	}
 }

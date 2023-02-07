@@ -23,7 +23,7 @@ import com.shopme.common.entity.User;
 import com.shopme.admin.category.CategoryRepository;
 
 @Service
-//@Transactional
+@Transactional
 public class CategoryService {
 	public static final int ROOT_CATEGORIES_PER_PAGE = 4;
 

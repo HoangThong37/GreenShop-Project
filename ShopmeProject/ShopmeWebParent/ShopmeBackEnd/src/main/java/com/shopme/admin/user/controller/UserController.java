@@ -157,7 +157,7 @@ public class UserController {
 		userService.updateUserEnabledStatus(id, enabled);
 		String status = enabled ? "enabled" : "disabled";
 		String message = "The user ID " + id + " has been " + status;
-		redirectAttributes.addFlashAttribute("message", message);
+		redirectAttributes.addFlashAttribute("messageSuccess", message);
 
 		return "redirect:/users";
 	}
