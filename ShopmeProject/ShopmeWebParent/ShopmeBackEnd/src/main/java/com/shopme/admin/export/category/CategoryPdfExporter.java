@@ -22,7 +22,7 @@ import com.shopme.common.entity.User;
 public class CategoryPdfExporter extends AbstractExporter {
 
 	public void export(List<Category> lisCategories, HttpServletResponse response) throws IOException {
-		super.setResponseHeader(response, "application/pdf", ".pdf", "users_");
+		super.setResponseHeader(response, "application/pdf", ".pdf", "categories_");
 		
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, response.getOutputStream());

@@ -28,7 +28,6 @@ public class Setting {
 	}
 	
 	public Setting(String key, String value, SettingCategory category) {
-		super();
 		this.key = key;
 		this.value = value;
 		this.category = category;

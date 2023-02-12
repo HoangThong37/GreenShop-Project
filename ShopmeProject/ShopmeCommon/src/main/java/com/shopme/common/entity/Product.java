@@ -226,5 +226,4 @@ public class Product {
 		}
 		return "/product-images/"  + this.id + "/" + this.mainImage;
 	}
-
 }

@@ -71,5 +71,14 @@ public class Currency { // time lưu hành tien te
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	@Override
+	public String toString() {
+		return name + " - " + code + " - " + symbol;
+	}
+
+   
+	
+	
 	
 }

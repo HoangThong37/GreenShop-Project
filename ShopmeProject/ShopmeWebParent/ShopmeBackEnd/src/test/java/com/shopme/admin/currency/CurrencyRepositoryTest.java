@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import com.shopme.admin.setting.CurrencyRepository;
+import com.shopme.admin.setting.SettingRepository;
 import com.shopme.common.entity.Currency;
 
 @DataJpaTest
@@ -21,6 +23,11 @@ public class CurrencyRepositoryTest {
    
 	@Autowired
 	private CurrencyRepository repo;
+	
+//	@Autowired
+//	private CurrencyRepository repoSetting;
+//	
+	
 	
 	@Test
 	public void testCreateCurrencies() {
@@ -49,7 +56,11 @@ public class CurrencyRepositoryTest {
 	}
 	
 	@Test
-	public void testListAll() {
+	public void testListAllOrderByNameAsc() {
+	   List<Currency> currencies= repo.findAllByOrderByNameAsc();
+	   currencies.forEach(System.out::println);
+	   
+	   assertThat(currencies.size()).isGreaterThan(0);
 	}
-	}
+}
 

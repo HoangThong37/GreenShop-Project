@@ -177,7 +177,6 @@ public class CategoryService {
 	
 	public String checkUnique(Integer id, String name, String alias) {
 		boolean isCreatingNew = (id == null || id == 0);
-		//boolean isCreatingNew = (id == null || id == 0);
 		Category categoryByName = repository.findByName(name);
 		
 		if (isCreatingNew) {
@@ -198,9 +197,7 @@ public class CategoryService {
 			if (categoryByAlias != null && categoryByAlias.getId() != id) {
 				return "DuplicateAlias";
 			}
-			
 		}
-		
 		return "OK";
 	}
 	
@@ -220,7 +217,6 @@ public class CategoryService {
 				}
 			}
 		});
-		
 		sortedChildren.addAll(children);
 		
 		return sortedChildren;
