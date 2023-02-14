@@ -13,6 +13,9 @@
 		<h2>Site Settings</h2>	
 	</div>
 
+	<div th:if="${messageSuccess != null}" class="alert alert-success text-center">
+		[[${messageSuccess}]]
+	</div>
 
 	<div>
 		<ul class="nav nav-tabs" id="settingTab" role="tablist">
@@ -51,8 +54,6 @@
 		  </div>
 		</div>	
 	</div>
-
-
 	<div th:replace="fragments :: footer"></div>
 
 </div>

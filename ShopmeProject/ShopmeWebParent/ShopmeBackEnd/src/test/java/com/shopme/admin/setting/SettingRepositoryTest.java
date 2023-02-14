@@ -51,4 +51,9 @@ public class SettingRepositoryTest {
 		repo.saveAll(List.of(currencyId, symbol, symbolPosition, decimalPointType, decimalDigits, thousandPointType));
 	}
 	
+	@Test
+	public void testListSettingByCategory() {
+		List<Setting> setting = repo.findByCategory(SettingCategory.GENERAL);
+		setting.forEach(System.out::println);
+	}
 }
