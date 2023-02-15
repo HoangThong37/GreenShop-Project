@@ -26,10 +26,16 @@ public class ProductImage {
 	 private Product product;
      
   	public ProductImage() {
-
  	}
+  	
      
- 	public ProductImage(String name, Product product) {
+ 	public ProductImage(Integer id, String name, Product product) {
+		this.id = id;
+		this.name = name;
+		this.product = product;
+	}
+
+	public ProductImage(String name, Product product) {
 		this.name = name;
 		this.product = product;
 	}

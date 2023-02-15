@@ -3,6 +3,7 @@ package com.shopme.common.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -72,10 +73,10 @@ public class Product {
 	 @JoinColumn(name="brand_id")
 	 private Brand brand;
 	 
-	 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL) // one : brand | many : product
+	 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true) // one : brand | many : product | orphanRemoval:  các phần tử con sẽ bị xóa khi xóa nó khỏi collection của phần tử cha.
 	 private Set<ProductImage> images = new HashSet<>();
 
-	 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL) // one : brand | many : product
+	 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true) // one : brand | many : product
 	 private List<ProductDetail> details = new ArrayList<>();	 
 	 
 	 
@@ -219,11 +220,27 @@ public class Product {
 		this.details.add(new ProductDetail(name, value, this));
 	}
 	
+	public void addDetail(Integer id, String name, String value) {
+		this.details.add(new ProductDetail(id, name, value, this));
+	}
+	
 	@Transient
 	public String getMainImagePath() {
 		if (id==null || mainImage==null) {
 			return "/images/image-thumbnail.png";
 		}
 		return "/product-images/"  + this.id + "/" + this.mainImage;
+	}
+
+	public boolean containsImageName(String imageName) { // có chứa name image ... k ? 
+		Iterator<ProductImage> iterator = images.iterator();
+		
+		while (iterator.hasNext()) { // có item tiếp theo k
+			ProductImage image = iterator.next();  // lấy ptu tiếp theo
+			if (image.getName().equals(imageName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
