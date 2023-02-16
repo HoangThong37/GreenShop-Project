@@ -188,7 +188,6 @@ public class ProductController {
 		}
 	}
 	
-	
 	// code update product enabled
 	@GetMapping("/products/{id}/enabled/{status}")
 	public String updateProductEnabledStatus(@PathVariable("id") Integer id,
@@ -235,6 +234,23 @@ public class ProductController {
 			model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
 
 			return "products/products_form";
+
+		} catch (ProductNotFoundException e) {
+			ra.addFlashAttribute("messageError", e.getMessage());
+			return "redirect:/products";
+		}
+	}
+	
+	@GetMapping("/products/detail/{id}")
+	public String viewProductDetails(@PathVariable("id") Integer id, Model model,
+			RedirectAttributes ra) {
+
+		try {
+			Product product = serviceProduct.get(id);
+
+			model.addAttribute("product", product);
+
+			return "products/products_detail_modal";
 
 		} catch (ProductNotFoundException e) {
 			ra.addFlashAttribute("messageError", e.getMessage());
