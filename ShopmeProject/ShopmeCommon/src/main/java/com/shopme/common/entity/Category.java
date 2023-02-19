@@ -34,6 +34,9 @@ public class Category implements Serializable{
 
 	private boolean enabled;
 	
+	@Column(name = "all_parent_ids",length = 256, nullable = true)
+	private String allParentIDs;
+	
 	@Transient
 	private boolean hasChildren;
 	
@@ -134,6 +137,7 @@ public class Category implements Serializable{
 	public String getAlias() {
 		return alias;
 	}
+	
 
 	public void setAlias(String alias) {
 		this.alias = alias;
@@ -178,6 +182,14 @@ public class Category implements Serializable{
 	public void setChildren(Set<Category> children) {
 		this.children = children;
 	}
+	public String getAllParentIDs() {
+		return allParentIDs;
+	}
+	public void setAllParentIDs(String allParentIDs) {
+		this.allParentIDs = allParentIDs;
+	}
+	
+	
 }
 	
 	

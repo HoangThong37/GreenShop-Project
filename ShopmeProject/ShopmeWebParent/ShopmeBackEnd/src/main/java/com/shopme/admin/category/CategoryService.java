@@ -123,6 +123,13 @@ public class CategoryService {
 	}
 
 	public Category save(Category category) {
+		// show category in all_parent_IDs
+		Category parent = category.getParent();
+		if (parent != null) {
+			String allParentIds = parent.getAllParentIDs() == null ? "-"  : parent.getAllParentIDs();
+			allParentIds += String.valueOf(parent.getId()) + "-";
+			category.setAllParentIDs(allParentIds);
+		}
 		return repository.save(category);
 	}
 
