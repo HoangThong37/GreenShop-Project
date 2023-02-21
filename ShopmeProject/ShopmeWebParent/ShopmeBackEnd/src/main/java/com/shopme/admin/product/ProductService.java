@@ -4,16 +4,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
 
-import com.shopme.admin.user.UserNotFoundException;
-import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Product;
 
 @Service
@@ -30,15 +29,26 @@ public class ProductService {
 	}
 	
 	// page
-	public Page<Product> listByPage(int number, String sortField, String sortDir, String keyword) {
+	public Page<Product> listByPage(int number, String sortField, String sortDir,
+			                        String keyword, Integer categoryId) {
 		// sortDir : asc or desc
 		Sort sort = Sort.by(sortField);
 		
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		Pageable pageable = PageRequest.of(number - 1, PRODUCTS_PER_PAGE, sort);
 
-		if (keyword != null) {
+		// search keyword
+		if (keyword != null && !keyword.isEmpty()) { 
+			if (categoryId != null && categoryId > 0) {
+				String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
+				return repo.searchInCategory(categoryId, categoryIdMatch,keyword , pageable);
+			}
 			return repo.findAll(keyword, pageable);
+		}
+		// find all category
+		if (categoryId != null && categoryId > 0) {
+			String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
+			return repo.findAllInCategory(categoryId, categoryIdMatch, pageable);
 		}
 		return repo.findAll(pageable);
 	}
@@ -75,7 +85,7 @@ public class ProductService {
 	}
 
 	public void updateEnabled(Integer id, boolean enabled) {
-		repo.updateEnabledAndStatus(id, enabled);
+		repo.updateEnabledStatus(id, enabled);
 	}
 
 	public void delete(Integer id) throws ProductNotFoundException {

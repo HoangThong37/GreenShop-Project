@@ -29,6 +29,7 @@ import com.lowagie.text.pdf.AcroFields.Item;
 import com.shopme.admin.FileUploadUntil;
 import com.shopme.admin.brand.BrandService;
 import com.shopme.admin.category.CategoryNotFoundException;
+import com.shopme.admin.category.CategoryService;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.Product;
@@ -45,6 +46,9 @@ public class ProductController {
 	@Autowired
 	private BrandService brandService;
 	
+	@Autowired
+	private CategoryService categoryService;	
+	
 //	@GetMapping("/products")
 //	public String listAll(Model model) {
 //		List<Product> listProducts = serviceProduct.listAll(); 
@@ -55,7 +59,7 @@ public class ProductController {
 	
 	@GetMapping("/products")
 	public String listFirstPage(Model model) {
-		return listByPage(1, model, "name", "asc", null);
+		return listByPage(1, model, "name", "asc", null, 0);
 	}
 	
 	// product : sản phẩm
@@ -64,9 +68,14 @@ public class ProductController {
 			@PathVariable(name = "pageNum") int pageNum, Model model,
 			@Param("sortField") String sortField, 
 			@Param("sortDir") String sortDir,
-			@Param("keyword") String keyword
+			@Param("keyword") String keyword,
+			@Param("categoryId") Integer categoryId
+
 			) {
-		Page<Product> page = serviceProduct.listByPage(pageNum, sortField, sortDir, keyword);
+		//System.out.println("Seleted category Id : " + categoryId);
+		List<Category> listCategories = categoryService.listCategoriesUsedInForm(); // list --
+		
+		Page<Product> page = serviceProduct.listByPage(pageNum, sortField, sortDir, keyword, categoryId);
 		List<Product> listProducts = page.getContent();
 
 		long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE + 1;
@@ -75,7 +84,9 @@ public class ProductController {
 			endCount = page.getTotalElements();
 		}
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-
+        
+		if (categoryId != null) model.addAttribute("categoryId", categoryId);
+		
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("startCount", startCount);
@@ -86,6 +97,8 @@ public class ProductController {
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);		
 		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("listCategories", listCategories);
+		
 
 		return "products/products";		
 	}
