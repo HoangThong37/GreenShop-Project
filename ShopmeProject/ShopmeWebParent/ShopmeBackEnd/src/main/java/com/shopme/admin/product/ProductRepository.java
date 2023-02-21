@@ -20,7 +20,6 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 	
 	public Long countById(Integer id);
 	
-	
 	@Query("SELECT p FROM Product p WHERE p.name LIKE %?1% " 
 			+ "OR p.shortDescription LIKE %?1% "
 			+ "OR p.fullDescription LIKE %?1% "
