@@ -104,4 +104,14 @@ public class ProductService {
 		}
 	}
 	
+	// save product Price [role saleperson]
+	public void saveProductPrice(Product productInForm) {
+		Product product = repo.findById(productInForm.getId()).get(); // lấy product cần save
+		product.setCost(productInForm.getCost());
+		product.setPrice(productInForm.getPrice());
+		product.setDiscountPercent(productInForm.getDiscountPercent());
+		
+		repo.save(product);
+	}
+	
 }

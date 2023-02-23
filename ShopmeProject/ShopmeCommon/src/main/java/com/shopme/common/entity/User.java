@@ -2,6 +2,7 @@ package com.shopme.common.entity;
 
 import java.beans.Transient;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -133,12 +134,7 @@ public class User {
 				+ ", lastName=" + lastName + ", roles=" + roles + "]";
 	}
 	
-//	@Transient
-//	public String getPhotosImagePath() {
-//		if (id == null || photos == null) return "/images/default-img.png";
-//		
-//		return "/user-photos/" + this.id +"/" + this.photos;
-//	}
+
     @Transient
     public String getPhotosImagePath() {
     	if (id == null || photos == null) return "/images/default-img.png";   
@@ -148,6 +144,17 @@ public class User {
     @Transient
     public String getFullName() {
         return firstName + " " + lastName ;
+    }
+    
+    public boolean hasRole(String roleName) {
+    	Iterator<Role> iterator = roles.iterator(); // Duyệt các phần tử từ đầu đến cuối 
+    	while (iterator.hasNext()) {
+			Role role = (Role) iterator.next(); // return về true nếu có phần tử tiếp theo. Nếu không, trả về false.
+			if (role.getName().equals(roleName)) {
+				return true;
+			}
+		}
+		return false;
     }
 
 }

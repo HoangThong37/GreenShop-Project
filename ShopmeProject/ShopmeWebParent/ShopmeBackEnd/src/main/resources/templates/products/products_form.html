@@ -33,35 +33,65 @@
 						href="#shipping" role="tab">Shipping</a></li>
 				</ul>
 
-				<div class="tab-content">
-					<div class="tab-pane active p-3" id="overview" role="tabpanel">
+				   <div class="tab-content">
+					 <div class="tab-pane active p-3" id="overview" role="tabpanel">
 						<div th:replace="products/product_overview :: content"></div>
+					 </div>
+				   
+					
+				<!-- description -->
+				    <div class="tab-pane" id="description" role="tabpanel">		   
+					    <th:block sec:authorize="hasAuthority('Salesperson')">
+					  		<div th:replace="products/product_description_read_only :: content"></div>
+					  	</th:block>		   
+					    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+					  		<div th:replace="products/product_description :: content"></div>
+					  	</th:block>
+				    </div>
+					
+				<!-- images -->				
+					<div class="tab-pane" id="images" role="tabpanel">		   
+				    <th:block sec:authorize="hasAuthority('Salesperson')">
+				  		<div th:replace="products/product_images_read_only :: content"></div>
+				  	</th:block>		   
+				    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+				  		<div th:replace="products/product_images :: content"></div>
+				  	</th:block>
 					</div>
-					<div class="tab-pane" id="description" role="tabpanel">
-					    <div th:replace="products/product_description :: content"></div>
-					</div>
-					<div class="tab-pane" id="images" role="tabpanel">
-					    <div th:replace="products/product_images :: content"></div>
-					</div>
-					<div class="tab-pane p-3" id="details" role="tabpanel">
-					    <div th:replace="products/product_details :: content"></div>
-					    <div>
+					
+				<!-- details -->
+					<div class="tab-pane" id="details" role="tabpanel">		   
+				    <th:block sec:authorize="hasAuthority('Salesperson')">
+				  		<div th:replace="products/product_details_read_only :: content"></div>
+				  	</th:block>		   
+				    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+				        <div th:replace="products/product_details :: content"></div>
+				        <div>
 					       <input type="button" class="btn btn-secondary" value="Add More Details"
 					       onclick="addNextDetailSection()" />
 					    </div>
-					</div>
-					<div class="tab-pane p-3" id="shipping" role="tabpanel">
-					    <div th:replace="products/product_shipping :: content"></div>
-                    </div>
+				  	</th:block>		
+				  	</div>		
+					
+				<!-- shipping -->
+                    <div class="tab-pane" id="shipping" role="tabpanel">		   
+				    <th:block sec:authorize="hasAuthority('Salesperson')">
+				  		<div th:replace="products/product_shipping_read_only :: content"></div>
+				  	</th:block>		   
+				    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+				  		<div th:replace="products/product_shipping :: content"></div>
+				  	</th:block>
+				  	</div>  
+				  	                                                      
 				</div>
 			</div>
 
 
-				<div class="text-center">
-					<input type="submit" value="Save" class="btn btn-primary m-3" /> <input
+			<div class="text-center">
+				<input type="submit" value="Save" class="btn btn-primary m-3" /> <input
 						type="button" value="Cancel" class="btn btn-secondary"
 						id="buttonCancel" />
-				</div>
+			</div>
 		</form>
 		
 		<div th:replace="modal_fragments :: modal_dialog"></div>
