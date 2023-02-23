@@ -34,18 +34,18 @@ public class Category implements Serializable{
 
 	private boolean enabled;
 	
-	@Column(name = "all_parent_ids",length = 256, nullable = true)
-	private String allParentIDs;
-	
-	@Transient
-	private boolean hasChildren;
-	
 	@OneToOne
 	@JoinColumn(name = "parent_id")
 	private Category parent;
+	
+	@Column(name = "all_parent_ids",length = 256, nullable = true)
+	private String allParentIDs;
 
 	@OneToMany(mappedBy = "parent")
 	private Set<Category> children = new HashSet<>();
+	
+	@Transient
+	private boolean hasChildren;
 	
 	public Category(Integer id) {
 		this.id = id;

@@ -1,5 +1,6 @@
 package com.shopme.admin.brand;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,7 +26,12 @@ public class BrandService {
 	private BrandRepository repo;
 	
 	public List<Brand> listAll() {
-		return (List<Brand>) repo.findAll();
+		
+		Sort firstNameSorting =  Sort.by("name").ascending();
+		
+		List<Brand> brandList = new ArrayList<>();
+		repo.findAll(firstNameSorting).forEach(brandList::add);
+		return brandList;
 	}
 	
 	public Brand save(Brand brand) {
