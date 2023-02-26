@@ -27,4 +27,22 @@ public class CategoryService {
 		});
 		return listNoChildrenCategories;
 	}
+	
+	// get thể loại
+	public Category getCategory(String alias) {
+		return repo.findByAliasEnabled(alias);
+	}
+	
+	// get thể loại cha
+	public List<Category> getCategoryParents(Category child) {
+		List<Category> listParents = new ArrayList<>(); // 1 list rỗng
+		Category parent = child.getParent(); 
+		
+		while (parent != null) {
+			listParents.add(0, parent);
+			parent = parent.getParent(); // lấy tiếp parent nếu có
+		}
+		listParents.add(child);
+		return listParents;
+	}
 }

@@ -91,7 +91,6 @@ public class ProductController {
 	}
 	
 	
-	
 	//Brand : nhãn hiệu
 	@GetMapping("/products/new") 
 	public String newProduct(Model model) {
