@@ -128,7 +128,8 @@ public class ProductController {
 				ra.addFlashAttribute("messageSuccess", "The product has been saved successfully.");
 				return "redirect:/products";
 			}
-		    ProductSaveHelper.setMainImageName(mainImageMultiparts,product);
+		   
+		  //  ProductSaveHelper.setMainImageName(mainImageMultiparts,product);
 		    ProductSaveHelper.setExistingExtraImageName(imageIDs, imageNames, product); // set tên hình ảnh
 		    ProductSaveHelper.setNewExtraImageNames(extraImageMultiparts, product);
 		    ProductSaveHelper.setProductDetails(detailIDs,detailNames, detailValues, product);

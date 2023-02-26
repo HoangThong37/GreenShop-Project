@@ -31,7 +31,7 @@ public class ProductController {
 	public String viewCategory(@PathVariable("category_alias") String alias,
 		                       @PathVariable("pageNum") Integer pageNum, 
 			                   Model model) {
-		Category category = categoryService.getCategory(alias);
+		Category category = categoryService.getCategory(alias); // get category theo alias
 		if (category == null) {
 			return "error/404";
 		}
@@ -55,6 +55,7 @@ public class ProductController {
 		model.addAttribute("pageTitle", category.getName());
 		model.addAttribute("listCategoriesParent", listCategoriesParent);
 		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("category", category);
 		
 		return "products_by_category";
 	}

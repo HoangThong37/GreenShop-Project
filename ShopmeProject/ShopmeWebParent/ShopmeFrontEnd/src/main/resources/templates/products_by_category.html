@@ -29,17 +29,41 @@
 			</div>
 		</div>
 		
+		<div class="row text-center">
+		   <th:block th:each="cat : ${category.children}">
+		     <div class="col" th:if="${cat.enabled == true}">
+		       <a th:href="@{'/c/' + ${cat.alias}}">
+		         <img th:src="@{${cat.imagePath}}" height="100">
+		         </br>
+		         <b>[[${cat.name}]]</b>
+		       </a>
+		     </div>
+		   </th:block>
+		</div>
+		
 		<div class="row">
 		    <th:block th:each="product : ${listProducts}">
 		      <div class="col">
 		         <div>
-		            <img th:src="@{${product.mainImagePath}}" />
+		            <img th:src="@{${product.mainImagePath}}" width="150" />
 		            </br>
 		            <b>[[${product.name}]]</b>
 		         </div>
+		         
+		         <div th:if="${product.discountPercent < 0}">
+		            <span>$ [[${product.price}]]</span>      
+		         </div>
+		         
+		         <div th:if="${product.discountPercent > 0}">
+		            <span style="font-size: larger; color: darkred">[[${product.discountPrice}]]</span>
+		            <del>$ [[${product.price}]]</del>      
+		         </div>		         
+		         
 		      </div>
 		    </th:block>
 		</div>
+		
+		<div th:replace="fragments :: pagination('/c/' + ${category.alias}, 'product')">  </div>
 
 		<div th:replace="navigation :: footer_menu"></div>
 	</div>
