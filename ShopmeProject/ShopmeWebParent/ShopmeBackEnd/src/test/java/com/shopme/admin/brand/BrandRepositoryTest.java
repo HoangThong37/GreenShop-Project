@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import com.shopme.admin.repository.BrandRepository;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
 

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
 import com.lowagie.text.pdf.AcroFields.Item;
+import com.shopme.admin.repository.CategoryRepository;
 import com.shopme.common.entity.Category;
 
 @DataJpaTest

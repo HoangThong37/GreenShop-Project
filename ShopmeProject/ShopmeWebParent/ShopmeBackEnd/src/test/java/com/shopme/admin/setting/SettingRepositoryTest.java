@@ -13,7 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.web.savedrequest.SavedCookie;
 import org.springframework.test.annotation.Rollback;
 
-import com.shopme.admin.product.ProductRepository;
+import com.shopme.admin.repository.ProductRepository;
+import com.shopme.admin.repository.SettingRepository;
 import com.shopme.common.entity.Setting;
 import com.shopme.common.entity.SettingCategory;
 

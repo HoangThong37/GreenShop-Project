@@ -12,8 +12,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
-import com.shopme.admin.setting.CurrencyRepository;
-import com.shopme.admin.setting.SettingRepository;
+import com.shopme.admin.repository.CurrencyRepository;
+import com.shopme.admin.repository.SettingRepository;
 import com.shopme.common.entity.Currency;
 
 @DataJpaTest
