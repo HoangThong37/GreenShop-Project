@@ -1,4 +1,4 @@
-package com.shopme.admin.exception;
+package com.shopme.common.exception;
 
 public class CategoryNotFoundException extends Exception{
 	

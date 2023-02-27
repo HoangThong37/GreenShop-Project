@@ -13,9 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.shopme.admin.exception.ProductNotFoundException;
 import com.shopme.admin.repository.ProductRepository;
 import com.shopme.common.entity.Product;
+import com.shopme.common.exception.ProductNotFoundException;
 
 @Service
 @Transactional

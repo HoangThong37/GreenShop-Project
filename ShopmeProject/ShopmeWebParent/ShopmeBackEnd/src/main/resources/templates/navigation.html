@@ -26,6 +26,7 @@
 							<a class="dropdown-item" th:href="@{/users}">View All</a>
 						</div>
 					</li>
+					</th:block>
 					
 					
 					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
@@ -37,6 +38,7 @@
 							<a class="dropdown-item" th:href="@{/categories}">View All</a>
 						</div>
 					</li>
+					</th:block>
 
 					
 					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
@@ -48,6 +50,7 @@
 							<a class="dropdown-item" th:href="@{/brands}">View All</a>
 						</div>
 					</li>
+					</th:block>
 					
 					
 					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson', 'Shipper')">
@@ -60,14 +63,9 @@
 							<a class="dropdown-item" th:href="@{/products}">View All</a>
 						</div>
 					</li>
-
-
-					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson', 'Shipper')">
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/products}">Products</a>
-					</li>
 					</th:block>
-					
+
+
 					<th:block sec:authorize="hasAnyAuthority('Admin', 'Salesperson')">
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/customer}">Customer</a>
