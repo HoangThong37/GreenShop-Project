@@ -13,41 +13,55 @@ import com.shopme.common.exception.CategoryNotFoundException;
 @Service
 public class CategoryService {
    
-	@Autowired
+	@Autowired 
 	private CategoryRepository repo;
 	
+	public CategoryService(CategoryRepository repo) {
+		super();
+		this.repo = repo;
+	}
+
+	
 	public List<Category> listNoChildrenCategories() {
-		List<Category> listNoChildrenCategories = new ArrayList<>();
-		List<Category> listCategoriesEnabled = repo.findAllEnabled(); // list d/s categories
 		
-		listCategoriesEnabled.forEach(category -> {
-			   Set<Category> children = category.getChildren(); 
-			   if (children == null || children.size() == 0) {
-				   listNoChildrenCategories.add(category);
+		List<Category> listNoChildrenCategories = new ArrayList<>();
+
+		List<Category> listEnabledCategories = repo.findAllEnabled();
+
+		listEnabledCategories.forEach(category -> {
+			Set<Category> children = category.getChildren();
+			if (children == null || children.size() == 0) {
+				listNoChildrenCategories.add(category);
 			}
 		});
+
 		return listNoChildrenCategories;
 	}
 	
-	// get thể loại
-	public Category getCategory(String alias) throws CategoryNotFoundException {
-	    Category category = repo.findByAliasEnabled(alias);
-	    if (category == null) {
-			throw new CategoryNotFoundException("Could not find any categories with alias" + alias);
-		}
-	    return category;
-	}
 	
-	// get thể loại cha
+	public Category getCategory(String alias) throws CategoryNotFoundException {
+		Category category = repo.findByAliasEnabled(alias);
+		if (category == null) {
+			throw new CategoryNotFoundException("Could not find any categories with alias " + alias);
+		}
+
+		return category;
+	}
+
+	
 	public List<Category> getCategoryParents(Category child) {
-		List<Category> listParents = new ArrayList<>(); // 1 list rỗng
-		Category parent = child.getParent(); 
-		
+		List<Category> listParents = new ArrayList<>();
+
+		Category parent = child.getParent();
+
 		while (parent != null) {
 			listParents.add(0, parent);
-			parent = parent.getParent(); // lấy tiếp parent nếu có
+			parent = parent.getParent();
 		}
+
 		listParents.add(child);
+
 		return listParents;
 	}
+
 }

@@ -12,10 +12,12 @@ import com.shopme.common.entity.Category;
 
 @Controller
 public class MainController {
-	@Autowired
+	
+	@Autowired 
 	private CategoryService categoryService;
 	
-	@GetMapping
+
+	@GetMapping("")
 	public String viewHomePage(Model model) {
 		List<Category> listCategories = categoryService.listNoChildrenCategories();
 		model.addAttribute("listCategories", listCategories);

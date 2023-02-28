@@ -12,25 +12,31 @@ import com.shopme.common.exception.ProductNotFoundException;
 @Service
 public class ProductService {
 	
-	public static final int PRODUCTS_PER_PAGE = 10;	
-	
-	@Autowired private ProductRepository productRepo;
+	public static final int PRODUCTS_PER_PAGE = 10;
 
-	public Page<Product> listByCategory(int pageNum, Integer categoryId) {
-		String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
-		Pageable pageable = PageRequest.of(pageNum -1, PRODUCTS_PER_PAGE);
-		
-		return productRepo.listByCategory(categoryId, categoryIdMatch, pageable);
-	}
+	@Autowired 
+	private ProductRepository repo;
 	
-	public Product getProduct(String alias) throws ProductNotFoundException {
-		Product product = productRepo.findByAlias(alias);
-		if (product == null) {
-			throw new ProductNotFoundException("Could not find any product with alias" + alias);
-		}
-		return product;
-		
+	
+	public Page<Product> listByCategory(int pageNum, Integer categoryId) {
+		// TODO Auto-generated method stub
+
+		String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
+		Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_PAGE);
+
+		return repo.listByCategory(categoryId, categoryIdMatch, pageable);
 	}
+
+	public Product getProduct(String alias) throws ProductNotFoundException {
+		// TODO Auto-generated method stub
+		Product product = repo.findByAlias(alias);
+		if (product == null) {
+			throw new ProductNotFoundException("Could not find any product with alias " + alias);
+		}
+
+		return product;
+	}
+
 }
 
 
