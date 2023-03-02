@@ -10,7 +10,19 @@
 	<div class="row">
 		<div class="col-sm">
 			<div>
-				<img th:src="@{${product.mainImagePath}}" class="img-fluid" />
+				<img id="bigImage" th:src="@{${product.mainImagePath}}" class="img-fluid" />
+			</div>
+			<div class="row justify-content-center"> 
+			   <div class="m-2">
+			      <img  th:src="@{${product.mainImagePath}}" height="50" />
+			   </div>
+			   
+			   <!-- image extra -->
+			   <th:block th:each="extraImage : ${product.images}">
+				   <div class="m-2">
+				      <img class="image-thumbnail" th:src="@{${extraImage.imagePath}}" height="50" />
+				   </div>			    
+			   </th:block>
 			</div>		
 		</div>
 		<div class="col-sm">
@@ -73,6 +85,18 @@
 	</div>
 
 	<div th:replace="navigation :: footer_menu"></div>
-</div>	
+</div>
+<script type="text/javascript">
+    /* $(this) : được sử dụng bên trong hàm vô danh (hàm này được thực thi trong phương thức click của button) */
+    /* .attr(): lấy giá trị hoặc thêm thuộc tính (attribute) cho thành phần. (_,_) -> gán giá trị */
+     $(document).ready(function() {
+    	 bigImage = $("#bigImage");
+    	 $(".image-thumbnail").mouseover(function() {  /* xẩy ra khi người dùng di chuyển con trỏ vào một phần tử hoặc di chuyển vào một trong các phần tử con của nó. */
+    		 currentImageSource = $(this).attr("src");
+    		 bigImage.attr("src", currentImageSource);
+    	     // alert(currentImageSource);
+    	 });
+     });
+</script>
 </body>
 </html> 
