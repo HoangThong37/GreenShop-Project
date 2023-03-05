@@ -13,6 +13,7 @@ import com.shopme.common.exception.ProductNotFoundException;
 public class ProductService {
 	
 	public static final int PRODUCTS_PER_PAGE = 10;
+	public static final int SEARCH_RESULTS_PER_PAGE = 10;
 
 	@Autowired 
 	private ProductRepository repo;
@@ -20,7 +21,7 @@ public class ProductService {
 	
 	public Page<Product> listByCategory(int pageNum, Integer categoryId) {
 		// TODO Auto-generated method stub
-
+		
 		String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
 		Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_PAGE);
 
@@ -36,7 +37,12 @@ public class ProductService {
 
 		return product;
 	}
-
+	
+	public Page<Product> search(String key, int pageNum) {
+		Pageable pageable = PageRequest.of(pageNum - 1, SEARCH_RESULTS_PER_PAGE);
+		
+		return repo.search(key, pageable);
+	}
 }
 
 
