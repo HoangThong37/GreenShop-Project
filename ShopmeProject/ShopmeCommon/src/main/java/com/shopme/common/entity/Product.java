@@ -23,196 +23,65 @@ import javax.persistence.Transient;
 @Table(name = "products")
 public class Product {
 	
-	 @Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 private Integer id;
-	 
-	 @Column(length = 256, nullable = false, unique = true)
-	 private String name;
-	 
-	 @Column(length = 256, nullable = false, unique = true)
-	 private String alias;
-	 
-	 @Column(length = 512, nullable = false, name = "short_description")
-	 private String shortDescription; // mô tả ngắn
-	 
-	 @Column(length = 4096, nullable = false, name = "full_description") // nullable : no null
-	 private String fullDescription;  // mô tả chi tiết
-	 
-	 @Column(name = "created_time") 
-	 private Date createdTime;
-	 
-	 @Column(name = "updated_time") 
-	 private Date updatedTime;
-	 
-	 private boolean enabled;
-	 
-	 @Column(name = "in_stock")
-	 private boolean inStock;  // trong kho
-	 
-	 private float cost; // Giá cả
-	 
-	 private float price; // giá
-	 
-	 @Column(name = "discount_percent")
-	 private float discountPercent; // phần trăm chiết khấu
-	 
-	 private float length;
-	 private float width;
-	 private float height;
-	 private float weight; // cân nặng
-	 
-	 @Column(name = "main_image", nullable = false)
-	 private String mainImage; //ảnh chính
-	 
-	 @ManyToOne
-	 @JoinColumn(name="category_id")
-	 private Category category;
-	 
-	 @ManyToOne
-	 @JoinColumn(name="brand_id")
-	 private Brand brand;
-	 
-	 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true) // one : brand | many : product | orphanRemoval:  các phần tử con sẽ bị xóa khi xóa nó khỏi collection của phần tử cha.
-	 private Set<ProductImage> images = new HashSet<>();
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-	 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true) // one : brand | many : product
-	 private List<ProductDetail> details = new ArrayList<>();	 
-	 
-	 
-	public List<ProductDetail> getDetails() {
-		return details;
-	}
+	@Column(unique = true, length = 256, nullable = false)
+	private String name;
+
+	@Column(unique = true, length = 256, nullable = false)
+	private String alias;
+
+	@Column(length = 512, nullable = false, name = "short_description")
+	private String shortDescription;
+
+	@Column(length = 4096, nullable = false, name = "full_description")
+	private String fullDescription;
+
+	@Column(name = "created_time")
+	private Date createdTime;
+
+	@Column(name = "updated_time")
+	private Date updatedTime;
+
+	private boolean enabled;
+
+	@Column(name = "in_stock")
+	private boolean inStock;
+
+	// Generate automatically column name as "cost"
+	private float cost;
+
+	// Generate automatically column name as "price"
+	private float price;
+
+	@Column(name = "discount_percent")
+	private float discountPercent;
 	
-	public void setDetails(List<ProductDetail> details) {
-		this.details = details;
-	}
-	public Set<ProductImage> getImages() {
-		return images;
-	}
-	public void setImages(Set<ProductImage> images) {
-		this.images = images;
-	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getAlias() {
-		return alias;
-	}
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
-	public String getShortDescription() {
-		return shortDescription;
-	}
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
-	public String getFullDescription() {
-		return fullDescription;
-	}
-	public void setFullDescription(String fullDescription) {
-		this.fullDescription = fullDescription;
-	}
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-	public Date getUpdatedTime() {
-		return updatedTime;
-	}
-	public void setUpdatedTime(Date updatedTime) {
-		this.updatedTime = updatedTime;
-	}
-	public boolean isEnabled() {
-		return enabled;
-	}
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-	public boolean isInStock() {
-		return inStock;
-	}
-	public void setInStock(boolean inStock) {
-		this.inStock = inStock;
-	}
-	public float getCost() {
-		return cost;
-	}
-	public void setCost(float cost) {
-		this.cost = cost;
-	}
-	public float getPrice() {
-		return price;
-	}
-	public void setPrice(float price) {
-		this.price = price;
-	}
-	public float getDiscountPercent() {
-		return discountPercent;
-	}
-	public void setDiscountPercent(float discountPercent) {
-		this.discountPercent = discountPercent;
-	}
-	public float getLength() {
-		return length;
-	}
-	public void setLength(float length) {
-		this.length = length;
-	}
-	public float getWidth() {
-		return width;
-	}
-	public void setWidth(float width) {
-		this.width = width;
-	}
-	public float getHeight() {
-		return height;
-	}
-	public void setHeight(float height) {
-		this.height = height;
-	}
-	public float getWeight() {
-		return weight;
-	}
-	public void setWeight(float weight) {
-		this.weight = weight;
-	}
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	public Brand getBrand() {
-		return brand;
-	}
-	public void setBrand(Brand brand) {
-		this.brand = brand;
-	}
-	public String getMainImage() {
-		return mainImage;
-	}
-	public void setMainImage(String mainImage) {
-		this.mainImage = mainImage;
-	}
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + "]";
-	}
-	 
-	public void addExtraImages(String imageName) { // thêm image bổ sung
+	private float length;
+	private float width;
+	private float height;
+	private float weight;
+	
+	@Column(name = "main_image", nullable = false)
+	private String mainImage;
+
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
+
+	@ManyToOne
+	@JoinColumn(name = "brand_id")	
+	private Brand brand;
+	
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<ProductImage> images = new HashSet<>();
+	
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ProductDetail> details = new ArrayList<>();
+
+	public void addExtraImage(String imageName) {
 		this.images.add(new ProductImage(imageName, this));
 	}
 	
@@ -220,27 +89,32 @@ public class Product {
 		this.details.add(new ProductDetail(name, value, this));
 	}
 	
+	@Transient
+	public String getMainImagePath() {
+		if (id == null || mainImage == null) return "/images/image-thumbnail.png";
+
+		return "/product-images/" + this.id + "/" + this.mainImage;
+	}
+	
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + "]";
+	}
+	
 	public void addDetail(Integer id, String name, String value) {
 		this.details.add(new ProductDetail(id, name, value, this));
 	}
-	
-	@Transient
-	public String getMainImagePath() {
-		if (id==null || mainImage==null) {
-			return "/images/image-thumbnail.png";
-		}
-		return "/product-images/"  + this.id + "/" + this.mainImage;
-	}
 
-	public boolean containsImageName(String imageName) { // có chứa name image ... k ? 
+	public boolean containsImageName(String imageName) {
 		Iterator<ProductImage> iterator = images.iterator();
-		
-		while (iterator.hasNext()) { // có item tiếp theo k
-			ProductImage image = iterator.next();  // lấy ptu tiếp theo
+
+		while (iterator.hasNext()) {
+			ProductImage image = iterator.next();
 			if (image.getName().equals(imageName)) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 	
@@ -259,4 +133,175 @@ public class Product {
 		}
 		return this.price;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public String getShortDescription() {
+		return shortDescription;
+	}
+
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
+	}
+
+	public String getFullDescription() {
+		return fullDescription;
+	}
+
+	public void setFullDescription(String fullDescription) {
+		this.fullDescription = fullDescription;
+	}
+
+	public Date getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(Date createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	public Date getUpdatedTime() {
+		return updatedTime;
+	}
+
+	public void setUpdatedTime(Date updatedTime) {
+		this.updatedTime = updatedTime;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isInStock() {
+		return inStock;
+	}
+
+	public void setInStock(boolean inStock) {
+		this.inStock = inStock;
+	}
+
+	public float getCost() {
+		return cost;
+	}
+
+	public void setCost(float cost) {
+		this.cost = cost;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public float getDiscountPercent() {
+		return discountPercent;
+	}
+
+	public void setDiscountPercent(float discountPercent) {
+		this.discountPercent = discountPercent;
+	}
+
+	public float getLength() {
+		return length;
+	}
+
+	public void setLength(float length) {
+		this.length = length;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(float weight) {
+		this.weight = weight;
+	}
+
+	public String getMainImage() {
+		return mainImage;
+	}
+
+	public void setMainImage(String mainImage) {
+		this.mainImage = mainImage;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
+	public Set<ProductImage> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<ProductImage> images) {
+		this.images = images;
+	}
+
+	public List<ProductDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<ProductDetail> details) {
+		this.details = details;
+	}
+	
+	
+	
 }
