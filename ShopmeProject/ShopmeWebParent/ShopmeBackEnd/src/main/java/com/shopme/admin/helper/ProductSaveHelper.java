@@ -116,7 +116,7 @@ public class ProductSaveHelper {
 				String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 				
 				if (!product.containsImageName(fileName)) {
-					product.addExtraImages(fileName);
+					product.addExtraImage(fileName);
 				}
 			}
 			}

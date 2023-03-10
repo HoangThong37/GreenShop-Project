@@ -101,9 +101,9 @@ public class ProductRepositoryTest {
 		Product product = repo.findById(idProduct).get();
 		
 		product.setMainImage("main_Image.png");
-		product.addExtraImages("extra_image1.png");
-		product.addExtraImages("extra_image2.png");
-		product.addExtraImages("extra_image3.png");
+		product.addExtraImage("extra_image1.png");
+		product.addExtraImage("extra_image2.png");
+		product.addExtraImage("extra_image3.png");
 	
 	    Product saveImageProduct = repo.save(product);
 	    assertThat(saveImageProduct.getImages().size()).isEqualTo(3);
