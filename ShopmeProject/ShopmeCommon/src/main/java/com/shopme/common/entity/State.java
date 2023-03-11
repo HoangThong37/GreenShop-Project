@@ -16,23 +16,22 @@ public class State { // country 1-n state
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(length = 64, nullable = false)
+
+	@Column(nullable = false, length = 45)
 	private String name;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "country_id")
-	private Country country;
+	private Country country;	
 
+	public State() {	
+	}
+	
 	public State(String name, Country country) {
 		this.name = name;
 		this.country = country;
 	}
 	
-	public State() {
-
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -59,9 +58,6 @@ public class State { // country 1-n state
 
 	@Override
 	public String toString() {
-		return "State [id=" + id + ", name=" + name + ", country=" + country + "]";
+		return "State [id=" + id + ", name=" + name + "]";
 	}
-	
-	
-	
 }

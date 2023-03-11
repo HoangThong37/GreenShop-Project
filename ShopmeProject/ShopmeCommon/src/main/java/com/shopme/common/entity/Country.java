@@ -13,27 +13,42 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "countries")
 public class Country {    // country 1-n state
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(length = 45, nullable = false)
+
+	@Column(nullable = false, length = 45)
 	private String name;
-	
-	@Column(length = 5, nullable = false)
+
+	@Column(nullable = false, length = 5)
 	private String code;
-	
+
 	@OneToMany(mappedBy = "country")
 	private Set<State> states;
-	
-	
+
 
 	public Country(String name, String code) {
 		this.name = name;
 		this.code = code;
 	}
-
+	
+	public Country(Integer id, String name, String code) {
+		this.id = id;
+		this.name = name;
+		this.code = code;
+	}
+	
+	public Country(String name) {
+		this.name = name;
+	}
 	public Country() {
+	}
+	
+
+	@Override
+	public String toString() {
+		return "Country [id=" + id + ", name=" + name + ", code=" + code + "]";
 	}
 
 	public Integer getId() {
@@ -60,17 +75,15 @@ public class Country {    // country 1-n state
 		this.code = code;
 	}
 
-	public Set<State> getStates() {
-		return states;
-	}
+//	public Set<State> getStates() {
+//		return states;
+//	}
+//
+//	public void setStates(Set<State> states) {
+//		this.states = states;
+//	}
+	
+	
 
-	public void setStates(Set<State> states) {
-		this.states = states;
-	}
-
-	@Override
-	public String toString() {
-		return "Country [id=" + id + ", name=" + name + ", code=" + code + ", states=" + states + "]";
-	} 
 
 }
