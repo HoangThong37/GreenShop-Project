@@ -46,9 +46,6 @@ public class Customer {
 	@Column(length = 45, nullable = false)
 	private String state;
 	
-//	@Column(nullable = false)
-//	private Integer country;
-	
 	@Column(name = "postal_code", length = 10, nullable = false)
 	private String postalCode;
 	

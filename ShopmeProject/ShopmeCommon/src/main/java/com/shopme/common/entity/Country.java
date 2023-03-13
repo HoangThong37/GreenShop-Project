@@ -24,6 +24,7 @@ public class Country {    // country 1-n state
 	@Column(nullable = false, length = 5)
 	private String code;
 
+	// bên 1 - country => list-n(states)
 	@OneToMany(mappedBy = "country")
 	private Set<State> states;
 	
