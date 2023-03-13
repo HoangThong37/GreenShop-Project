@@ -26,6 +26,10 @@ public class Country {    // country 1-n state
 
 	@OneToMany(mappedBy = "country")
 	private Set<State> states;
+	
+	// n.customer - 1.country
+	@OneToMany(mappedBy = "country")
+	private Set<Customer> customers;
 
 
 	public Country(String name, String code) {
