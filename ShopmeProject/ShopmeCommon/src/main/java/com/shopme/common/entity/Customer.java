@@ -34,10 +34,10 @@ public class Customer {
 	@Column(name = "phone_number", length = 15, nullable = false)
 	private String phoneNumber;
 	
-	@Column(name = "address_line1", length = 64, nullable = false)
+	@Column(length = 64, nullable = false)
 	private String addressLine1;
 	
-	@Column(name = "address_line2", length = 64, nullable = false)
+	@Column(name = "address_line_2", length = 64)
 	private String addressLine2;
 	
 	@Column(length = 45, nullable = false)
@@ -52,10 +52,9 @@ public class Customer {
 	@Column(name = "created_time")
 	private Date createdTime;
 	
-	@Column(nullable = false)
-	private Boolean enabled;
+	private boolean enabled;
 
-	@Column(name = "verification_code", length = 64, nullable = false)
+	@Column(name = "verification_code", length = 64)
 	private String verificationCode;
 	
 	@ManyToOne //  n -> join bên 1
@@ -158,11 +157,13 @@ public class Customer {
 		this.createdTime = createdTime;
 	}
 
-	public Boolean getEnabled() {
+
+
+	public boolean isEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(Boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 
