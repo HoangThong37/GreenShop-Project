@@ -10,7 +10,9 @@
 		</div>
 		
 		<form th:action="@{/create_customer}" method="post" th:object="${customer}"
-		      style="max-width: 600px; margin: 0 auto"> 
+		      style="max-width: 600px; margin: 0 auto"
+		      onsubmit="return checkEmailUnique(this);">
+		      
 		   <div class="border border-secondary rounded p-3"> 
 		     <div class="form-group row">
 		          <label class="col-sm-4 col-form-label">First Name</label>
@@ -128,8 +130,10 @@
 		        <input type="submit" value="Create Account" class="btn btn-primary" />
 		     </div>
 		   </div>
-		   <div>&nbsp;</div>
 		</form>
+		 <div>&nbsp;</div>
+		
+		<div th:replace="fragments :: modal_dialog"></div>
 		<div th:replace="navigation :: footer_menu"></div>
 	</div>
 
@@ -175,6 +179,45 @@
 		} else {
 			confirmPassword.setCustomValidity("");
 		}
+	}
+	
+	/* check Email */
+	function checkEmailUnique(form) {
+		url = contextPath + "customers/check_unique_email";
+		customerEmail = $("#email").val();
+		userId = $("#id").val();
+		csrfValue = $("input[name='_csrf']").val();
+		
+		params = {id: userId, email: customerEmail, _csrf: csrfValue};
+		
+		$.post(url, params, function(response) {
+			if (response == "OK") {
+				form.submit();
+			} else if (response == "Duplicated") {
+				showWarningModal("There is another customer having the email " + customerEmail);
+			} else {
+				showErrorModal("Unknown response from server");
+			}
+		}).fail(function() {
+			showErrorModal("Could not connect to the server");
+		});
+		
+		return false;
+	}
+	
+
+	function showModalDialog(title, message) {
+		$("#modalTitle").text(title);
+		$("#modalBody").text(message);
+		$("#modalDialog").modal();
+	}
+
+	function showErrorModal(message) {
+		showModalDialog("Error", message);
+	}
+
+	function showWarningModal(message) {
+		showModalDialog("Warning", message);
 	}
 </script>
 
