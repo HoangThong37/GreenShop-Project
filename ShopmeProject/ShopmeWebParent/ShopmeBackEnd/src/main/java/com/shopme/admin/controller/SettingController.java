@@ -109,4 +109,14 @@ public class SettingController {
 		 ra.addFlashAttribute("messageSuccess", "Mail server settings have been saved");  // message success
 		 return "redirect:/settings#mailServer"; // return về String
 	 }
+	 
+	 // save mail_server setting
+	 @PostMapping("/settings/save_mail_templates")
+	 public String saveMailTemplateSettings(HttpServletRequest request, RedirectAttributes ra) {
+		 List<Setting> mailTemplateSettings   = service.getMailTemplateSetting();
+		 updateSettingValuesFromForm(request, mailTemplateSettings); // save 
+		 
+		 ra.addFlashAttribute("messageSuccess", "Mail template settings have been saved");  // message success
+		 return "redirect:/settings"; // return về String
+	 }
 }

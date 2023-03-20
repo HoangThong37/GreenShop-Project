@@ -44,4 +44,10 @@ public class SettingService {
 		 
 		 return repoSetting.findByCategory(SettingCategory.MAIL_SERVER);
 	 }
+	 
+	 // get mail_template setting
+	 public List<Setting> getMailTemplateSetting() {
+		 
+		 return repoSetting.findByCategory(SettingCategory.MAIL_TEMPLATES);
+	 }
 }
