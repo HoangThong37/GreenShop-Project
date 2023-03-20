@@ -14,9 +14,10 @@
 	</div>
 
 	<div th:if="${messageSuccess != null}" class="alert alert-success text-center">
-		[[${messageSuccess}]]
+			[[${messageSuccess}]]
 	</div>
-
+	
+	
 	<div>
 		<ul class="nav nav-tabs" id="settingTab" role="tablist">
 		  <li class="nav-item">
@@ -38,16 +39,16 @@
 
 		<div class="tab-content">
 		  <div class="tab-pane active p-3" id="general" role="tabpanel">
-		  	<div th:replace="/settings/general :: content"></div>
+		  	<div th:replace="settings/general :: content"></div>
 		  </div>
-		   <div class="tab-pane" id="countries" role="tabpanel">
-		  	<h2>Countries</h2>		  	
+		   <div class="tab-pane p-3" id="countries" role="tabpanel">
+		  	<h2>Countries</h2>
 		  </div>
-		  <div class="tab-pane" id="states" role="tabpanel">
-		  	<h2>States</h2>		  	
+		  <div class="tab-pane p-3" id="states" role="tabpanel">
+		  	<h2>States</h2>  	
 		  </div>
 		  <div class="tab-pane p-3" id="mailServer" role="tabpanel">
-		  	<h2>Mail Server</h2>		  	
+		  	<div th:replace="settings/mail_server :: content"></div>		  	
 		  </div>
 		  <div class="tab-pane p-3" id="mailTemplate" role="tabpanel">
 		  	<h2>Mail Templates</h2>		  	

@@ -38,4 +38,10 @@ public class SettingService {
 	 public void saveAll(Iterable<Setting> setting) {
 		  repoSetting.saveAll(setting);
 	 }
+	 
+	 // get mail_server setting
+	 public List<Setting> getMailServerSetting() {
+		 
+		 return repoSetting.findByCategory(SettingCategory.MAIL_SERVER);
+	 }
 }
