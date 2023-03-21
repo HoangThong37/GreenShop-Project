@@ -20,4 +20,6 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 	@Modifying // Annotation @Modifying để cập nhật dữ liệu
 	public void enable(Integer id);
 	
+	
+	
 }

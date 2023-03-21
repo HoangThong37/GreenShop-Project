@@ -19,10 +19,10 @@ public class SettingBag {
 	}
 
 	// getValue
-	public Setting getValue(String key) {
+	public String getValue(String key) {
 		Setting setting = get(key);
 		if (setting != null) {
-			return setting;
+			return setting.getValue();
 		}
 		return null;
 	}

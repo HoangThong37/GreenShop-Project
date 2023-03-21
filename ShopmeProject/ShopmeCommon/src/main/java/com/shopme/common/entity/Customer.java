@@ -55,7 +55,7 @@ public class Customer {
 	private boolean enabled;
 
 	@Column(name = "verification_code", length = 64)
-	private String verificationCode;
+	private String verificationCode; // mã xác nhận
 	
 	@ManyToOne //  n -> join bên 1
 	@JoinColumn(name = "country_id")
