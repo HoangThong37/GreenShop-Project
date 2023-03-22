@@ -157,8 +157,6 @@ public class Customer {
 		this.createdTime = createdTime;
 	}
 
-
-
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -188,6 +186,9 @@ public class Customer {
 		return "Customer [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
 	
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 	
 	
 }

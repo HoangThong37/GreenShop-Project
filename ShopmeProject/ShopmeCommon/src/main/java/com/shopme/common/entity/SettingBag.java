@@ -1,8 +1,9 @@
 package com.shopme.common.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SettingBag {
+public class SettingBag implements Serializable{
 
 	private List<Setting> listSettings;
 
@@ -15,28 +16,27 @@ public class SettingBag {
 		if (index >= 0) {
 			return listSettings.get(index);
 		}
+
 		return null;
 	}
 
-	// getValue
 	public String getValue(String key) {
 		Setting setting = get(key);
 		if (setting != null) {
 			return setting.getValue();
 		}
+
 		return null;
 	}
 
-	// update
 	public void update(String key, String value) {
 		Setting setting = get(key);
 		if (setting != null && value != null) {
 			setting.setValue(value);
 		}
-	} 
-	
+	}
+
 	public List<Setting> list() {
 		return listSettings;
 	}
-
 }

@@ -15,14 +15,14 @@ public class Utility {
 		
 		return siteUrl.replace(request.getServletPath(), "");
 	}
-	 // cbi gửi thư
-	// dùng thư viện Java Mail
+	 // gửi thư
+	//  dùng thư viện Java Mail
 	public static JavaMailSenderImpl prepareMailSender(EmailSettingBag settings) {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost(null);
-		mailSender.setPort(0);
-		mailSender.setUsername(null);
-		mailSender.setPassword(null);
+		mailSender.setHost(settings.getHost());
+		mailSender.setPort(settings.getPort());
+		mailSender.setUsername(settings.getUsername());
+		mailSender.setPassword(settings.getPassword());
 		
 		Properties mailProperties = new Properties();
 		mailProperties.setProperty("mail.smtp.auth", settings.getSmtpAuth());
