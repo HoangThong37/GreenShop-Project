@@ -3,6 +3,8 @@ package com.shopme.customer;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import com.shopme.until.CustomerRegisterUtil;
 import net.bytebuddy.utility.RandomString;
 
 @Service
+@Transactional
 public class CustomerService {
 
 	@Autowired 
@@ -47,5 +50,16 @@ public class CustomerService {
 
 		customerRepo.save(customer);
 		
+	}
+	
+	public boolean verify(String verification) {
+		Customer customer = customerRepo.findByVerificationCode(verification);
+		
+		if (customer == null || customer.isEnabled()) {
+			return false;
+		} else {
+			customerRepo.enable(customer.getId());
+			return true;
+		}
 	}
 }
