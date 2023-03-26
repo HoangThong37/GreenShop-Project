@@ -42,7 +42,7 @@
 		  	<div th:replace="settings/general :: content"></div>
 		  </div>
 		   <div class="tab-pane p-3" id="countries" role="tabpanel">
-		  	<h2>Countries</h2>
+		  	<div th:replace="settings/countries :: content"></div>
 		  </div>
 		  <div class="tab-pane p-3" id="states" role="tabpanel">
 		  	<h2>States</h2>  	
@@ -55,17 +55,28 @@
 		  </div>
 		</div>	
 	</div>
+	
+	<!-- Toast là một thành phần giống như một hộp cảnh báo chỉ hiển thị trong vài giây khi có điều gì đó xảy ra --> 
+	<div class="toast" role="alert" aria-live="polite" aria-atomic="true" data-delay="30000">
+       <div role="alert" aria-live="assertive" aria-atomic="true">
+         <div class="toast-body">
+            <span id="toastMessage"> </span>
+         </div>
+       </div>
+    </div>
+	
 	<div th:replace="fragments :: footer"></div>
 
 </div>
 <script type="text/javascript">
      MAX_FILE_SIZE = 102400; // 100kb
-     
+     contextPath = "[[@{/}]]";
      
      $(document).ready(function() {
     	 $("#customerVerificationContent").richText();
      });
 </script>
 <script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/countries_setting.js}"></script>
 </body>
 </html> 
