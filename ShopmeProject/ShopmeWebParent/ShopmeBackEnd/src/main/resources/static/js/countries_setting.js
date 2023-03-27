@@ -30,11 +30,64 @@ $(document).ready(function() {
 		  addCountry();
 	  } else {
 		  changeFormStateToNew();
-	  }
-	    
+	  }  
+	});
+	
+	buttonUpdateCountry.click(function() {
+		updateCountry();
+	});
+	
+	buttonDeleteCountry.click(function() {
+		deleteCountry();
 	});
 });
 
+// call delete countries
+function deleteCountry() {
+	optionValue = dropDownCountry.val(); 
+	countryId = dropDownCountry.val().split("-")[0]; //
+	
+	url = contextPath + "countries/delete/" + countryId;
+
+	$.get(url, function() {
+		$("#dropDownCountries option[value= '" + optionValue + "']").remove();
+		changeFormStateToNew();
+	}).done(function() {
+		showToastMessage("The country has been deleted");
+	}).fail(function() {
+		showToastMessage("ERROR: Could not connect to server or server encountered an error");
+	});
+}
+
+// call update countries
+function updateCountry() {
+	url = contextPath + "countries/save";
+	countryName = fieldCountryName.val();
+	countryCode = fieldCountryCode.val();
+	countryId = dropDownCountry.val().split("-")[0]; //
+	
+	jsonData = {id: countryId, name: countryName, code: countryCode};
+	
+	$.ajax({
+		type: 'POST', 
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName, csrfHeaderValue);
+		},
+		data: JSON.stringify(jsonData),
+		contentType: 'application/json'
+	}).done(function(countryId) {
+		$("#dropDownCountries option:selected").val(countryId + "-" + countryCode);
+		$("#dropDownCountries option:selected").text(countryName);
+		showToastMessage("The country has been updated");
+		
+		changeFormStateToNew();
+	}).fail(function() {
+		showToastMessage("ERROR: Could not connect to server or server encountered an error");
+	});
+}
+
+// call add new countries
 function addCountry() {
 	url = contextPath + "countries/save";
 	countryName = fieldCountryName.val();
@@ -51,9 +104,25 @@ function addCountry() {
 		data: JSON.stringify(jsonData),
 		contentType: 'application/json'
 	}).done(function(countryId) {
-		alert("new add country ID : " + countryId);
+		//alert("new add country ID : " + countryId);
+		selectNewAddCountries(countryId, countryName, countryCode);
+		showToastMessage("The new country has been added");
+	}).fail(function() {
+		showToastMessage("ERROR: Could not connect to server or server encountered an error");
 	});
 }
+
+function selectNewAddCountries(countryId, countryName, countryCode) {
+	// hiển thị all + new countries in form
+		optionValue = countryId + "-" + countryCode;
+		$("<option>").val(optionValue).text(countryName).appendTo(dropDownCountry);	
+		 
+		$("#dropDownCountries option[value= '" + optionValue + "']").prop("selected", true); // prop: lấy thuộc tính của thẻ
+		
+		fieldCountryCode.val("");
+		fieldCountryName.val("").focus();
+}
+	
 
 function changeFormStateToSelectedCountries() {
 	buttonAddCountry.prop("value", "New");
