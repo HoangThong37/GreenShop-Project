@@ -19,7 +19,7 @@
     </div>
     
     <div class="form-group row m-2">
-       <label class="col-form-label">Country Name:</label>   <!-- label: sử dụng để định nghĩa nhãn cho phần tử <input> -->
+       <label class="col-form-label" id="labelCountryName">Country Name:</label>   <!-- label: sử dụng để định nghĩa nhãn cho phần tử <input> -->
          <div class="col-md">
              <input type="text" class="form-control mt-2" id="fieldCountryName" />
          </div>
@@ -30,9 +30,9 @@
          </div> 
          
        <div class="col-lg-4 mt-2">
-          <input type="button" value="Add" class="btn btn-secondary mr-2" />
-          <input type="button" value="Update" class="btn btn-secondary mr-2" />
-          <input type="button" value="Delete" class="btn btn-secondary mr-2" />         
+          <input type="button" id="buttonAddCountry" value="Add" class="btn btn-secondary mr-2" />
+          <input type="button" id="buttonUpdateCountry" value="Update" class="btn btn-secondary" disabled="disabled"  />
+          <input type="button" id="buttonDeleteCountry" value="Delete" class="btn btn-secondary" disabled="disabled" />         
        </div>          
     </div>
 </div>

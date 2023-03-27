@@ -57,7 +57,7 @@
 	</div>
 	
 	<!-- Toast là một thành phần giống như một hộp cảnh báo chỉ hiển thị trong vài giây khi có điều gì đó xảy ra --> 
-	<div class="toast" role="alert" aria-live="polite" aria-atomic="true" data-delay="30000">
+	<div class="toast justify-content-center d-flex" role="alert" aria-live="polite" aria-atomic="true" data-delay="30000">
        <div role="alert" aria-live="assertive" aria-atomic="true">
          <div class="toast-body">
             <span id="toastMessage"> </span>
@@ -71,6 +71,9 @@
 <script type="text/javascript">
      MAX_FILE_SIZE = 102400; // 100kb
      contextPath = "[[@{/}]]";
+     var csrfHeaderName = "[[${_csrf.headerName}]]";
+     var csrfHeaderValue = "[[${_csrf.token}]]";
+     
      
      $(document).ready(function() {
     	 $("#customerVerificationContent").richText();
