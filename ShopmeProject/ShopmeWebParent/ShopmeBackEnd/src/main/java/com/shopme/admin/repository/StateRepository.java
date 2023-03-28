@@ -10,6 +10,7 @@ import com.shopme.common.entity.State;
 
 @Repository
 public interface StateRepository extends CrudRepository<State,Integer> {
+	// 
 	public List<State> findByCountryOrderByNameAsc(Country country);
    
 }

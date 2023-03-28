@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -45,7 +44,7 @@
 		  	<div th:replace="settings/countries :: content"></div>
 		  </div>
 		  <div class="tab-pane p-3" id="states" role="tabpanel">
-		  	<h2>States</h2>  	
+		    <div th:replace="settings/states :: content"></div>	
 		  </div>
 		  <div class="tab-pane p-3" id="mailServer" role="tabpanel">
 		  	<div th:replace="settings/mail_server :: content"></div>		  	
