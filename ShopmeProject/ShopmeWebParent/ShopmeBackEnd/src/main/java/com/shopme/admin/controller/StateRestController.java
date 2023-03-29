@@ -21,6 +21,7 @@ public class StateRestController {
 
 	@Autowired 
 	private StateRepository repo;
+	
 
 	@GetMapping("/states/list_by_country/{id}")
 	public List<StateDTO> listByCountry(@PathVariable("id") Integer countryId) {
@@ -40,7 +41,7 @@ public class StateRestController {
 		return String.valueOf(savedState.getId());
 	}
 
-	@DeleteMapping("/states/delete/{id}")
+	@GetMapping("/states/delete/{id}")
 	public void delete(@PathVariable("id") Integer id) {
 		repo.deleteById(id);
 	}
