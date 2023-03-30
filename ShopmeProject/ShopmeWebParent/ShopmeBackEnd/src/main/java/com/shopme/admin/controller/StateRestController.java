@@ -41,7 +41,7 @@ public class StateRestController {
 		return String.valueOf(savedState.getId());
 	}
 
-	@GetMapping("/states/delete/{id}")
+	@DeleteMapping("/states/delete/{id}")
 	public void delete(@PathVariable("id") Integer id) {
 		repo.deleteById(id);
 	}

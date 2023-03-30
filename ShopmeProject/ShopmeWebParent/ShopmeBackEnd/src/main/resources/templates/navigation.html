@@ -102,9 +102,22 @@
 					</li>
 					</th:block>
 					
-					<li class="nav-item" sec:authorize="hasAuthority('Admin')">
-						<a class="nav-link" th:href="@{/settings}">Settings</a>
+					<th:block sec:authorize="hasAuthority('Admin')">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-toggle="dropdown"         
+						   th:href="@{/settings}">Settings</a> <!-- thẻ a dùng để tạo 1 cái liên kết gì đó -->
+						
+						<div class="dropdown-menu">
+							<a class="dropdown-item"  th:href="@{/settings#general}">General</a>
+							<a class="dropdown-item"  th:href="@{/settings#countries}">Countries</a>
+							<a class="dropdown-item"  th:href="@{/settings#states}">States</a>
+							<a class="dropdown-item"  th:href="@{/settings#mailServer}">Mail Server</a>
+							<a class="dropdown-item"  th:href="@{/settings#mailTemplates}">Mail Templates</a>
+							<a class="dropdown-item"  th:href="@{/settings#payment}">Payment</a>
+						</div>
 					</li>
+					</th:block>
+                               <!-- note : /settings#states thì # đc call ở function customizeTab ở js -->
 
 					<li>
 						<span class="fas fa-user fa-2x" style="color:white"></span>

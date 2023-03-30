@@ -5,6 +5,7 @@ $(document).ready(function() {
 	});
 	
 	customizeDropDownMenu();
+	customizeTab();
 }); 
 
 
@@ -22,7 +23,19 @@ function customizeDropDownMenu() {
 		location.href = this.href;
 	});
 } 
-
+// @{/settings#payment} ví dụ
+function customizeTab() {
+	// Js to enabled link to tab
+	var url = document.location.toString();
+	if(url.match('#')) {
+		$('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+		
+	}
+	// change hash for page-reload
+	$('.nav-tabs a').on('shown.bs.tab', function (e) {
+		window.location.hash = e.target.hash;
+	});
+}
 
 function showModalDialog(title, message) {
 	$("#modalTitle").text(title);
