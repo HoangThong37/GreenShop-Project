@@ -74,6 +74,8 @@ function deleteState() {
 
 // call update State
 function updateState() {
+	if(!validateState()) return;  //  validate : xác thực
+	
 	url = contextPath + "states/save";
 	stateName = fieldStateName.val();
 	stateId = dropDownStates.val(); // 
@@ -103,8 +105,23 @@ function updateState() {
 	});
 }
 
+
+function validateState() {
+	// getElementById() sẽ trả về phần tử có thuộc tính id được chỉ định
+	formState = document.getElementById("formState");
+	if(!formState.checkValidity()) {
+		formState.reportValidity(); // show error message
+		return false;
+	}
+	return true;
+	// checkValidity() -> Phương thức này return false, nếu có một hoặc nhiều validation error trong form ngược lại nó return true.
+}
+
+
 // call add new countries
 function addState() {
+	if(!validateState()) return;  //  validate : xác thực
+
 	url = contextPath + "states/save";
 	//countryName = fieldCountryName.val();
 	stateName = fieldStateName.val();

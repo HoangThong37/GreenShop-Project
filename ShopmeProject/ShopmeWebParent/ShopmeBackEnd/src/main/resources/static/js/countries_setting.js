@@ -30,9 +30,8 @@ $(document).ready(function() {
 
 	buttonAddCountry.click(function() {
 		if (buttonAddCountry.val() == "Add") {
-			if(checkUnique()){
+			//if(checkUnique()){
 				addCountry();
-			}	
 		} else {
 			changeFormStateToNewCountry();
 		}
@@ -69,6 +68,7 @@ function deleteCountry() {
 }
 
 function updateCountry() {
+	if(!validateCountry()) return;
 	
 	url = contextPath + "countries/save";
 	countryName = fieldCountryName.val();
@@ -97,7 +97,20 @@ function updateCountry() {
 	});	
 }
 
+function validateCountry() {
+	// getElementById() sẽ trả về phần tử có thuộc tính id được chỉ định
+	formCountry = document.getElementById("formCountry");
+	if(!formCountry.checkValidity()) {
+		formCountry.reportValidity(); // show error message
+		return false;
+	}
+	return true;
+	// checkValidity() -> Phương thức này return false, nếu có một hoặc nhiều validation error trong form ngược lại nó return true.
+}
+
+
 function addCountry() {
+	if(!validateCountry()) return;
 	
 	url = contextPath + "countries/save";
 	countryName = fieldCountryName.val();

@@ -23,6 +23,8 @@ function customizeDropDownMenu() {
 		location.href = this.href;
 	});
 } 
+
+
 // @{/settings#payment} ví dụ
 function customizeTab() {
 	// Js to enabled link to tab
