@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shopme.admin.repository.CountryRepository;
@@ -29,6 +30,9 @@ public class CustomerService {
 	
 	@Autowired
 	private CountryRepository countryRepo;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	// listByPage() - Page<Customer>
 	// updateCustomerEnabledStatus
@@ -59,9 +63,17 @@ public class CustomerService {
 		return countryRepo.findAllByOrderByNameAsc();
 	}
     
-	// save
+	// save - encode - setPasswword
 	public Customer save(Customer customer) {
-
+        if (!customer.getPassword().isEmpty()) {
+			String encodePassword = passwordEncoder.encode(customer.getPassword());
+			customer.setPassword(encodePassword);
+		} else {
+			Customer customerId = customerRepo.findById(customer.getId()).get();
+			customer.setPassword(customerId.getPassword());
+			
+			// Customer customerInForm = passwordEncoder.encode(customer.getPassword());
+		}
 		return customerRepo.save(customer);
 	}
 	
