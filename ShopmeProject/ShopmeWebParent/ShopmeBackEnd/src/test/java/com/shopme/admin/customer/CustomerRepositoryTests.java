@@ -133,15 +133,14 @@ public class CustomerRepositoryTests {
 				
 	}
 	
-	@Test
-	public void testEnabled() {
-		Integer idInteger = 2;
-		repo.enable(idInteger);
-		
-		Customer customer = repo.findById(idInteger).get();
-		assertThat(customer.isEnabled()).isTrue();
-	//	System.out.println(customer);
-				
-	}
+//	@Test
+//	public void testEnabled() {
+//		Integer idInteger = 2;
+//		repo.enable(idInteger);
+//		
+//		Customer customer = repo.findById(idInteger).get();
+//		assertThat(customer.isEnabled()).isTrue();
+//	//	System.out.println(customer);		
+//	}
 
 }

@@ -1,5 +1,6 @@
 package com.shopme.admin.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,7 +24,7 @@ import com.shopme.common.exception.CustomerNotFoundException;
 @Service
 @Transactional
 public class CustomerService {
-	public static final int CUSTOMERS_PER_PAGE = 10;
+	public static final int CUSTOMERS_PER_PAGE = 5;
 	
 	@Autowired
 	private CustomerRepository customerRepo;
@@ -87,21 +88,6 @@ public class CustomerService {
 		return true;
 	}
 
-//	public String checkUnique(Integer id, String name) {
-//		boolean isCreatingNew = (id == null || id == 0);
-//		// Customer customerByName = customerRepo.(name);
-//
-//		if (isCreatingNew) {
-//			if (productByName != null)
-//				return "Duplicate";
-//		} else {
-//			if (productByName != null && productByName.getId() != id) {
-//				return "Duplicate";
-//			}
-//		}
-//
-//		return "OK";
-//	}
 	
 	public void updateCustomerEnabledStatus(Integer id, boolean enabled) {
 	      customerRepo.updateEnabledStatus(id, enabled);
@@ -123,6 +109,15 @@ public class CustomerService {
 		} catch (NoSuchElementException e) {
 			throw new CustomerNotFoundException("Could not find any customer with ID : " + id);
 		}
+	}
+
+	public List<Customer> listAll() {
+	  
+	    Sort firstNameSort = Sort.by("id").ascending();
+		List<Customer> listCustomer = new ArrayList<>();
+		customerRepo.findAll(firstNameSort).forEach(listCustomer::add);
+		
+		return listCustomer;
 	}
 	
 }

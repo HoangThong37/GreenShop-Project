@@ -26,8 +26,9 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 	@Modifying // Annotation @Modifying để cập nhật dữ liệu	
 	public void updateEnabledStatus(Integer id, boolean enabled);
 	
+	
 	@Query("SELECT c FROM Customer c WHERE CONCAT(c.email, ' ', c.firstName, ' ', c.lastName, ' ', "
-			+ "c.addressLine1, ' ', c.addressLine2, ' ', c.city, ' ', c.satate, ' ', "
+			+ "c.addressLine1, ' ', c.addressLine2, ' ', c.city, ' ', c.state, ' ', "
 			+ "c.postalCode, ' ', c.country.name) LIKE %?1%")
 	public Page<Customer> findAll(String keyword, Pageable pageable);
 	
@@ -38,7 +39,6 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 	// findByEmail(email)
 	// updateEnabledStatus()
 	// countById(id)
-	
 	// findAll - Page<Customer>
 	// phân trang
 

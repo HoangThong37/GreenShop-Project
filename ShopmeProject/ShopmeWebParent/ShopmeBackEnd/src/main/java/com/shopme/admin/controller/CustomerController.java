@@ -3,6 +3,8 @@ package com.shopme.admin.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shopme.admin.export.csv.CustomerCsvExporter;
 import com.shopme.admin.service.CustomerService;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.Customer;
@@ -28,21 +31,22 @@ public class CustomerController {
 	@GetMapping("/customers")
 	public String listFristName(Model model) {
 		
-		return listByPage(1, "firstName", "asc", null, model);
+		return listByPage(1, model, "firstName", "asc", null);
 	}
 	
 	// listByPage    //sortDir :sắp xếp thư mục
 	@GetMapping("/customers/page/{pageNum}")
-	public String listByPage(@PathVariable(name = "pageNum") int pageNum,
+	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
 			                 @Param("sortField") String sortField,
 			                 @Param("sortDir") String sortDir,
-			                 @Param("keyword") String keyword, Model model) {
+			                 @Param("keyword") String keyword) {
 		
 		if (sortDir == null || sortDir.isEmpty()) {
 		      sortDir = "asc";
 	    }
-		List<Country> listCountries = customerService.listAllCountries();
+		
 		Page<Customer> pageCustomer = customerService.listByPage(pageNum, sortField, sortDir, keyword);
+		List<Customer> listCustomers = pageCustomer.getContent();
 	
 		long startCount = (pageNum - 1) * CustomerService.CUSTOMERS_PER_PAGE + 1;
 		long endCount = startCount + CustomerService.CUSTOMERS_PER_PAGE - 1;
@@ -52,7 +56,7 @@ public class CustomerController {
 		
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 	
-		model.addAttribute("listCountries", listCountries);
+		model.addAttribute("listCustomers", listCustomers);
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("totalPages", pageCustomer.getTotalPages());
 		model.addAttribute("totalItems", pageCustomer.getTotalElements());
@@ -69,13 +73,13 @@ public class CustomerController {
 	// updateCustomerEnabledStatus
 	@GetMapping("/customers/{id}/enabled/{status}")
 	public String updateCustomerEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes ra) {
         
 		customerService.updateCustomerEnabledStatus(id, enabled);
 		String status = enabled ? "enabled" : "disabled";
 		String message = "The customer ID " + id + " has been " + status;
 
-		redirectAttributes.addFlashAttribute("messageSuccess", message);
+		ra.addFlashAttribute("messageSuccess", message);
 
 		return "redirect:/customers";
 	}
@@ -133,59 +137,21 @@ public class CustomerController {
 	// saveCustomer
 	@PostMapping("/customers/save")
 	public String saveCustomer(Customer customer, RedirectAttributes ra) {
-			customerService.save(customer);
+		customerService.save(customer);
 
 		ra.addFlashAttribute("messageSuccess", "The customer has been saved successfully.");
 		return "redirect:/customers";
 	}
+	
+	// code export csv list category
+	@GetMapping("/customers/export/csv")
+	public void exportCategoryByCsv(HttpServletResponse response) throws IOException {
+	//	List<Category> listCategories = customerService.listCategoriesUsedInForm();
+		List<Customer> listCustomers = customerService.listAll();
+		CustomerCsvExporter customerCsv = new CustomerCsvExporter();
+		customerCsv.export(listCustomers, response);
+	}
 }
 	
 
-//
-//	@GetMapping("/categories/new")
-//	public String newCategory(Model model) {
-//
-//		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
-//
-//		model.addAttribute("category", new Category());
-//		model.addAttribute("listCategories", listCategories);
-//		model.addAttribute("pageTitle", "Create New Category");
-//
-//		return "categories/category_form";
-//
-//	}
-//
 
-//
-
-//
-
-//
-
-//
-//	// code export csv list category
-//	@GetMapping("/categories/export/csv")
-//	public void exportCategoryByCsv(HttpServletResponse response) throws IOException {
-//		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
-//		CategoryCsvExporter category = new CategoryCsvExporter();
-//		category.export(listCategories, response);
-//	}
-//
-//	// code export export list category
-//	@GetMapping("/categories/export/excel")
-//	public void exportToExcel(HttpServletResponse response) throws IOException {
-//		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
-//		CategoryExcelExporter exporter = new CategoryExcelExporter();
-//		exporter.export(listCategories, response);
-//	}
-//	
-//	// code export export list category
-//	@GetMapping("/categories/export/pdf")
-//	public void exportToPDF(HttpServletResponse response) throws IOException {
-//		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
-//		CategoryPdfExporter exporter = new CategoryPdfExporter();
-//		exporter.export(listCategories, response);
-//	}
-//
-//
-//}
