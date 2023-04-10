@@ -16,27 +16,27 @@
 
 		</div>
 		
-		<div th:replace="fragments :: search_form_and_message('/customers/page/1')" />
+		<div th:replace="fragments :: search_form_and_message" />
 		
 		<div class="full-details">
 			<table class="table table-bordered table-striped table-hover table-responsive-xl">
 				<thead class="thead-dark">
 					<tr>
 					
-							<th th:replace="fragments :: column_link('/customers', 'id', 'ID', 'none')" />	
-							<th th:replace="fragments :: column_link('/customers', 'firstName', 'First Name', 'none')" />
-							<th th:replace="fragments :: column_link('/customers', 'lastName', 'Last Name', 'none')" />
+							<th th:replace="fragments :: column_link('id', 'ID', 'none')" />	
+							<th th:replace="fragments :: column_link('firstName', 'First Name', 'none')" />
+							<th th:replace="fragments :: column_link('lastName', 'Last Name', 'none')" />
 
 						<th class="hideable-column">
-							<th th:replace="fragments :: column_link('/customers', 'email', 'E-mail', 'tag')" />
+							<th th:replace="fragments :: column_link('email', 'E-mail', 'tag')" />
 						</th>
 	
-						<th th:replace="fragments :: column_link('/customers', 'city', 'City', 'none')" />
-						<th th:replace="fragments :: column_link('/customers', 'state', 'State', 'none')" />
+						<th th:replace="fragments :: column_link('city', 'City', 'none')" />
+						<th th:replace="fragments :: column_link('state', 'State', 'none')" />
 						
-						<th th:replace="fragments :: column_link('/customers', 'country', 'Country', 'none')" />
+						<th th:replace="fragments :: column_link('country', 'Country', 'none')" />
 						
-						 <th th:replace="fragments :: column_link('/customers', 'enabled', 'Enabled', 'none')" /> 
+						 <th th:replace="fragments :: column_link('enabled', 'Enabled', 'none')" /> 
 						
 						<th></th>
 					</tr>								
@@ -81,7 +81,7 @@
 		</div>
 		
 
-		<div th:replace="fragments :: pagination('/customers', 'customers')"></div>
+		<div th:replace="fragments :: pagination('customers')"></div>
 		
 		<div th:replace="modal_fragments :: confirm_modal" />
 		

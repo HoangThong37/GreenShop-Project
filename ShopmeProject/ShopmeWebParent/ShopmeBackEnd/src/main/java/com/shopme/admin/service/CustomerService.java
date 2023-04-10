@@ -65,17 +65,20 @@ public class CustomerService {
 	}
     
 	// save - encode - setPasswword
-	public Customer save(Customer customer) {
+	public void save(Customer customer) {
+		Customer customerId = customerRepo.findById(customer.getId()).get();
+		
         if (!customer.getPassword().isEmpty()) {
 			String encodePassword = passwordEncoder.encode(customer.getPassword());
 			customer.setPassword(encodePassword);
 		} else {
-			Customer customerId = customerRepo.findById(customer.getId()).get();
 			customer.setPassword(customerId.getPassword());
-			
-			// Customer customerInForm = passwordEncoder.encode(customer.getPassword());
 		}
-		return customerRepo.save(customer);
+        customer.setEnabled(true);
+        customer.setCreatedTime(customerId.getCreatedTime());
+        customer.setVerificationCode(customerId.getVerificationCode());
+        
+		customerRepo.save(customer);
 	}
 	
 	// kiểm tra email
