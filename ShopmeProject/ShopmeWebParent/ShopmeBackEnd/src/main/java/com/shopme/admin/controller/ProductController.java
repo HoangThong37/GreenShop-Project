@@ -123,11 +123,14 @@ public class ProductController {
 			@AuthenticationPrincipal ShopmeUserDetails loggedUser, // authen 
 			RedirectAttributes ra) throws IOException {
 		
-		    if (loggedUser.hasRole("Salesperson")) { // với role Saleperson -> save
-		    	serviceProduct.saveProductPrice(product);
-				ra.addFlashAttribute("messageSuccess", "The product has been saved successfully.");
-				return "redirect:/products";
+		    if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Editor")) {
+			    if (loggedUser.hasRole("Salesperson")) { // với role Saleperson -> save
+			    	serviceProduct.saveProductPrice(product);
+					ra.addFlashAttribute("messageSuccess", "The product has been saved successfully.");
+					return "redirect:/products";
+				}
 			}
+
 		   
 		  //  ProductSaveHelper.setMainImageName(mainImageMultiparts,product);
 		    ProductSaveHelper.setExistingExtraImageNames(imageIDs, imageNames, product); // set tên hình ảnh

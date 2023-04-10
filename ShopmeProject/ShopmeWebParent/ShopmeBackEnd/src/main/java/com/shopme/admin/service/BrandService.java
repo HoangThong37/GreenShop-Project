@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,12 +11,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.shopme.common.entity.Brand;
 import com.shopme.admin.exception.BrandNotFoundException;
+import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.repository.BrandRepository;
+import com.shopme.common.entity.Brand;
 
 @Service
-//@Transactional
 public class BrandService {
 	
 	public static final int BRANDS_PER_PAGE = 10;
@@ -39,17 +37,8 @@ public class BrandService {
 		return repo.save(brand);
 	}
 	
-	public Page<Brand> listByPage(int number, String sortField, String sortDir, String keyword) {
-		// sortDir : asc or desc
-		Sort sort = Sort.by(sortField);
-		
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(number - 1, BRANDS_PER_PAGE, sort);
-
-		if (keyword != null) {
-			return repo.search(keyword, pageable);
-		}
-		return repo.findAll(pageable);
+	public void listByPage(int number, PagingAndSortingHelper helper) {
+        helper.listEntities(number, BRANDS_PER_PAGE, repo);
 	}
 	
 	
@@ -70,7 +59,6 @@ public class BrandService {
 	}
 	
 	public String checkUnique(Integer id, String name) {
-		// TODO Auto-generated method stub
 		boolean isCreatingNew = (id == null || id == 0);
 		Brand brandByName = repo.findByName(name);
 

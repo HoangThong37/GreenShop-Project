@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -48,19 +46,11 @@ public class UserController {
 	// list page
 	@GetMapping("/users/page/{pageNumber}")
 	public String listPage(@PagingAndSortingParam(listName = "listUsers", moduleURL = "/users") PagingAndSortingHelper helper,
-			               @PathVariable(name = "pageNumber") int page ,Model model, 
-			               @Param("sortField") String sortField,
-			               @Param("sortDir") String sortDir,
-			               @Param("keyword") String keyword) {
+			               @PathVariable(name = "pageNumber") int page) {
 		
-		Page<User> pageUser = userService.listByPage(page, sortField, sortDir, keyword);
-		helper.updateAttributes(page, pageUser);
-		
+		userService.listByPage(page, helper);
 		return "users/users";
-		
-//		List<User> listUser = userService.listAll();
-//		model.addAttribute("listUsers", listUser);
-//		return "users";
+
 	}
 
 	@GetMapping("/users/new")

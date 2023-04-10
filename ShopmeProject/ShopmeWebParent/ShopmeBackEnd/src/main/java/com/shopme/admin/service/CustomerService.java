@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.repository.CountryRepository;
 import com.shopme.admin.repository.CustomerRepository;
 import com.shopme.common.entity.Country;
@@ -44,19 +45,8 @@ public class CustomerService {
 	
 	
 	// page
-	public Page<Customer> listByPage(int pageNumber, String sortField, String sortDir,
-			                        String keyword) {
-		// sortDir : asc or desc
-		Sort sort = Sort.by(sortField);
-		
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(pageNumber - 1, CUSTOMERS_PER_PAGE, sort);
-
-		// search keyword
-		if (keyword != null) {
-			return customerRepo.findAll(keyword, pageable);
-		}
-		return customerRepo.findAll(pageable);
+	public void listByPage(int pageNumber, PagingAndSortingHelper helper) {
+         helper.listEntities(pageNumber, CUSTOMERS_PER_PAGE, customerRepo);
 	}
 	
 	// listAllCountries

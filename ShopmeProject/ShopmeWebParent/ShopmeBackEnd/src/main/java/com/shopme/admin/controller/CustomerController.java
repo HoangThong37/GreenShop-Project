@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.export.csv.CustomerCsvExporter;
+import com.shopme.admin.paging.PagingAndSortingHelper;
+import com.shopme.admin.paging.PagingAndSortingParam;
 import com.shopme.admin.service.CustomerService;
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.Customer;
@@ -30,43 +32,16 @@ public class CustomerController {
 	// listFristName
 	@GetMapping("/customers")
 	public String listFristName(Model model) {
-		
-		return listByPage(1, model, "firstName", "asc", null);
+		return "redirect:/customers/page/1?sortField=firstName&sortDir=asc";
+		// return listByPage(1, model, "firstName", "asc", null);
 	}
 	
 	// listByPage    //sortDir :sắp xếp thư mục
 	@GetMapping("/customers/page/{pageNum}")
-	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
-			                 @Param("sortField") String sortField,
-			                 @Param("sortDir") String sortDir,
-			                 @Param("keyword") String keyword) {
-		
-		if (sortDir == null || sortDir.isEmpty()) {
-		      sortDir = "asc";
-	    }
-		
-		Page<Customer> pageCustomer = customerService.listByPage(pageNum, sortField, sortDir, keyword);
-		List<Customer> listCustomers = pageCustomer.getContent();
+	public String listByPage(@PagingAndSortingParam(listName = "listCustomers", moduleURL = "/customers") PagingAndSortingHelper helper,
+			                 @PathVariable(name = "pageNum") int pageNum) {
 	
-		long startCount = (pageNum - 1) * CustomerService.CUSTOMERS_PER_PAGE + 1;
-		long endCount = startCount + CustomerService.CUSTOMERS_PER_PAGE - 1;
-		if (endCount > pageCustomer.getTotalElements()) {
-			endCount = pageCustomer.getTotalElements();
-		}
-		
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-	
-		model.addAttribute("listCustomers", listCustomers);
-		model.addAttribute("reverseSortDir", reverseSortDir);
-		model.addAttribute("totalPages", pageCustomer.getTotalPages());
-		model.addAttribute("totalItems", pageCustomer.getTotalElements());
-		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);
-	
+		customerService.listByPage(pageNum, helper);
 		return "customers/customers";
 	}
 	

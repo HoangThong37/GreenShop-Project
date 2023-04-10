@@ -10,11 +10,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shopme.admin.exception.UserNotFoundException;
+import com.shopme.admin.paging.PagingAndSortingHelper;
+import com.shopme.admin.paging.SearchRepository;
 import com.shopme.admin.repository.RoleRepository;
 import com.shopme.admin.repository.UserRepository;
 import com.shopme.common.entity.Role;
@@ -44,19 +45,13 @@ public class UserService {
 		return userRepository.getUserByEmail(email);
 	}
 
-	public Page<User> listByPage(int number, String sortField, String sortDir, String keyword) {
+	public void listByPage(int number, PagingAndSortingHelper helper) {
 		// sortDir : asc or desc
-		Sort sort = Sort.by(sortField);
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(number - 1, USER_PER_PAGE, sort);
-
-		if (keyword != null) {
-			return userRepository.findAll(keyword, pageable);
-		}
-		return userRepository.findAll(pageable);
+		helper.listEntities(number, USER_PER_PAGE, userRepository);
 	}
 
-	//
+	
+	// list Role
 	public List<Role> listRoles() {
 		return (List<Role>) roleRepository.findAll();
 	}

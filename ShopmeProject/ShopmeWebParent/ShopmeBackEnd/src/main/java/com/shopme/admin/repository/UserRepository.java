@@ -9,11 +9,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.shopme.admin.paging.SearchRepository;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, Integer> {
+public interface UserRepository extends SearchRepository<User, Integer> {
 	@Query("SELECT u From User u WHERE u.email = :email")
 	public User getUserByEmail(@Param("email") String email);
 	
