@@ -1,14 +1,12 @@
 package com.shopme.admin.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +22,8 @@ import com.shopme.admin.exception.UserNotFoundException;
 import com.shopme.admin.export.csv.UserCsvExporter;
 import com.shopme.admin.export.execl.UserExcelExporter;
 import com.shopme.admin.export.pdf.UserPdfExporter;
+import com.shopme.admin.paging.PagingAndSortingHelper;
+import com.shopme.admin.paging.PagingAndSortingParam;
 import com.shopme.admin.service.UserService;
 import com.shopme.admin.util.FileUploadUntil;
 import com.shopme.common.entity.Role;
@@ -35,43 +35,28 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+//	@GetMapping("/users")
+//	public String listAll(Model model, @PagingAndSortingParam(listName = "", moduleURL = "") PagingAndSortingHelper helper) {
+//		return listPage(helper, 1, model, "firstName", "asc", null);
+//	}
+	
 	@GetMapping("/users")
-	public String listAll(Model model) {
-//		List<User> listUser = userService.listAll();
-//		model.addAttribute("listUsers", listUser);
-		return listPage(1, model, "firstName", "asc", null);
+	public String listAll() {
+		return "redirect:/users/page/1?sortField=firstName&sortDir=asc";
 	}
 	
 	// list page
 	@GetMapping("/users/page/{pageNumber}")
-	public String listPage(@PathVariable(name = "pageNumber") int page ,Model model, 
+	public String listPage(@PagingAndSortingParam(listName = "listUsers", moduleURL = "/users") PagingAndSortingHelper helper,
+			               @PathVariable(name = "pageNumber") int page ,Model model, 
 			               @Param("sortField") String sortField,
 			               @Param("sortDir") String sortDir,
 			               @Param("keyword") String keyword) {
 		
-		Page<User> pageUser =userService.listByPage(page, sortField, sortDir, keyword);
-		List<User> listUser = pageUser.getContent();
+		Page<User> pageUser = userService.listByPage(page, sortField, sortDir, keyword);
+		helper.updateAttributes(page, pageUser);
 		
-		long startCount = (page - 1) * UserService.USER_PER_PAGE + 1;
-		long endCount = startCount + UserService.USER_PER_PAGE - 1;
-		if (endCount > pageUser.getTotalElements()) {
-			endCount = pageUser.getTotalElements();
-		}
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-		
-		model.addAttribute("currentPage", page);
-		model.addAttribute("totalPages", pageUser.getTotalPages());
-		model.addAttribute("startCount", startCount);
-		model.addAttribute("endCount", endCount);
-		model.addAttribute("totalItems", pageUser.getTotalElements());
-		model.addAttribute("listUsers", listUser);
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("reverseSortDir", reverseSortDir);
-		model.addAttribute("moduleURL", "/users");
-		
-		return "/users/users";
+		return "users/users";
 		
 //		List<User> listUser = userService.listAll();
 //		model.addAttribute("listUsers", listUser);

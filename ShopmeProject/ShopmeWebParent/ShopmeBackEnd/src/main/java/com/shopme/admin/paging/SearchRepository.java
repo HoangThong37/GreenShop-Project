@@ -5,8 +5,7 @@
 //import org.springframework.data.repository.PagingAndSortingRepository;
 //import org.springframework.stereotype.Repository;
 //
-//
-////@NoRepositoryBean
+//@NoRepositoryBean
 //@Repository
 //public interface SearchRepository<T, ID> extends PagingAndSortingRepository<T, ID> {
 //	public Page<T> findAll(String keyword, Pageable pageable);
