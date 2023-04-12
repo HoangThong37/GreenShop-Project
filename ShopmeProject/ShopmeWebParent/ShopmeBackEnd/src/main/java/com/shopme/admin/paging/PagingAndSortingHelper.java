@@ -60,6 +60,13 @@ public class PagingAndSortingHelper {
 		updateAttributes(pageNum, page);
 	}
 	
+	public Pageable createPageable(int pageSize, int pageNumber) {
+		Sort sort = Sort.by(sortField);
+		
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		return PageRequest.of(pageNumber - 1, pageSize, sort);
+	}
+	
 
 	public String getSortField() {
 		return sortField;

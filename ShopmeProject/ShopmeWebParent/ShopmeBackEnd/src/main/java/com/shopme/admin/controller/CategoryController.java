@@ -34,9 +34,11 @@ public class CategoryController {
 
 	@GetMapping("/categories")
 	public String listFirstPage(@Param("sortDir") String sortDir, Model model) {
-		return listByPage(1, sortDir, null, model);
+		// return listByPage(1, sortDir, null, model);
+		return "redirect:/categories/page/1?sortDir=asc";
 	}
-
+	
+		
 	@GetMapping("/categories/page/{pageNum}")
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, @Param("sortDir") String sortDir,
 			@Param("keyword") String keyword, Model model) {
@@ -53,7 +55,6 @@ public class CategoryController {
 		if (endCount > pageInfo.getTotalElements()) {
 			endCount = pageInfo.getTotalElements();
 		}
-
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 
 		model.addAttribute("listCategories", listCategories);
@@ -67,9 +68,9 @@ public class CategoryController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("startCount", startCount);
 		model.addAttribute("endCount", endCount);
-		model.addAttribute("moduleURL", "/categories");	
-
-		return "categories/categories";
+		model.addAttribute("moduleURL", "/categories");
+		
+		return "categories/categories";	      
 	}
 
 	@GetMapping("/categories/new")
@@ -102,7 +103,6 @@ public class CategoryController {
 		} else {
 			categoryService.save(category);
 		}
-
 		ra.addFlashAttribute("messageSuccess", "The category has been saved successfully.");
 		return "redirect:/categories";
 	}
@@ -120,7 +120,6 @@ public class CategoryController {
 
 			return "categories/category_form";
 		} catch (CategoryNotFoundException ex) {
-
 			ra.addFlashAttribute("messageError", ex.getMessage());
 			return "redirect:/categories";
 		}

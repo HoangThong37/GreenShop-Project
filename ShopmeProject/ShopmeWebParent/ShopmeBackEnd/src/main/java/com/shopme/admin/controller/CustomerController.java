@@ -33,7 +33,7 @@ public class CustomerController {
 	@GetMapping("/customers")
 	public String listFristName(Model model) {
 		return "redirect:/customers/page/1?sortField=firstName&sortDir=asc";
-		// return listByPage(1, model, "firstName", "asc", null);
+		
 	}
 	
 	// listByPage    //sortDir :sắp xếp thư mục

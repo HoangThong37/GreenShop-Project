@@ -17,8 +17,6 @@ public class PagingAndSortingArgumentResolver implements HandlerMethodArgumentRe
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer model,
 			NativeWebRequest request, WebDataBinderFactory binderFactory) throws Exception {
-		// TODO Auto-generated method stub
-		
 		PagingAndSortingParam annotation = parameter.getParameterAnnotation(PagingAndSortingParam.class);
 		String sortDir = request.getParameter("sortDir");
 		String sortField = request.getParameter("sortField");

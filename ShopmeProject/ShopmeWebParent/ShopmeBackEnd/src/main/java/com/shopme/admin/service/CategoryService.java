@@ -31,7 +31,7 @@ public class CategoryService {
 	private CategoryRepository repository;
 
 	public List<Category> listByPage(CategoryPageInfo pageInfo, int pageNum, String sortDir,
-			String keyword) {
+			                          String keyword) {
 		Sort sort = Sort.by("name");  // search field name
 		
 		if (sortDir.equals("asc")) {
@@ -41,7 +41,6 @@ public class CategoryService {
 		}
 		
 		Pageable pageable = PageRequest.of(pageNum - 1, ROOT_CATEGORIES_PER_PAGE, sort);
-		
 		Page<Category> pageCategories = null;
 		
 		if (keyword != null && !keyword.isEmpty()) {
@@ -63,7 +62,8 @@ public class CategoryService {
 			return searchResult;
 		} else {
 			return listHierarchicalCategories(rootCategories, sortDir);
-		} } 
+		}
+	} 
 	
 	private List<Category> listHierarchicalCategories(List<Category> rootCategories, String sortDir) {
 		List<Category> hierarchicalCategories = new ArrayList<>();
