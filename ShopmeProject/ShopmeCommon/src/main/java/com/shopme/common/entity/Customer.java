@@ -204,6 +204,6 @@ public class Customer {
 	public void setAuthenticationType(AuthenticationType authenticationType) {
 		this.authenticationType = authenticationType;
 	}
-	
+
 	
 }

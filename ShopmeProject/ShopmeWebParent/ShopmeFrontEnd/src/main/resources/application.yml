@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: '/Shopme '
 spring:
+  main:
+    allow-circular-references: true
   datasource:
     password: 123456
     url: jdbc:mysql://localhost:3306/shopmetest
@@ -16,14 +18,14 @@ spring:
         format_sql: true
     show-sql: true
     
-    security:
-      oauth2:
+  security:
+     oauth2:
        client:
-         registration:
-           google:
-             client-id: 83023764402-umgbrijfcsi5ot4srq6sqb3efd51olpd.apps.googleusercontent.com
-             client-secret: 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
-             scope:
-              - email
-              - profile
+        registration:
+          google:
+            clientId: 536523972422-fpgg493oop86ggukhta6c8qr7rgusik1.apps.googleusercontent.com
+            client-secret: du_845-714EMVOz4zeB90d89
+            scope:
+             - email
+             - profile
        
