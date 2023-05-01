@@ -60,4 +60,13 @@ public class CustomerController {
      	boolean verify = customerService.verify(code);
      	return "/register/" + (verify ? "verify_success" : "verfiy_fail");
 	}
+	
+	
+	@GetMapping("/account_details")
+	public String viewAccountDetails(Model model, HttpServletRequest request) {
+	String principalType = request.getUserPrincipal().getClass().getName();
+		System.out.println(principalType);
+		
+		return "customer/account_form";
+	}
 }

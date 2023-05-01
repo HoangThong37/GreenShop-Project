@@ -36,11 +36,8 @@ public class SettingFilter implements Filter {
 		}  
 		List<Setting> genaralSettings = service.getGeneralSetting();
 		genaralSettings.forEach(item -> {
-			System.out.println(item);
 			request.setAttribute(item.getKey(), item.getValue());
 		});
-		
-		//System.out.println(url);
 		chain.doFilter(request, response);
 	}
 	
