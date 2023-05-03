@@ -30,6 +30,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DatabaseLoginSuccessHandler databaseLoginHandler;
 	
+	@Autowired 
+	public WebSecurityConfig(CustomerOAuth2UserService oAuth2UserService, OAuth2LoginSuccessHandler oauth2LoginHandler,
+			DatabaseLoginSuccessHandler databaseLoginHandler) {
+		super();
+		this.oAuth2UserService = oAuth2UserService;
+		this.oAuth2LoginHandler = oauth2LoginHandler;
+		this.databaseLoginHandler = databaseLoginHandler;
+	}
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
