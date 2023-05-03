@@ -18,7 +18,6 @@ import com.shopme.customer.CustomerService;
 @Component
 public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-
 	@Autowired 
 	private CustomerService customerService;
 
@@ -34,11 +33,12 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
 		AuthenticationType authenticationType = getAuthenticationType(clientName);
 
-		Customer customer = customerService.getCustomerEmail(email);
+		Customer customer = customerService.getCustomerByEmail(email);
 		if (customer == null) {
-			customerService.addNewCustomerUponOAuthLogin(clientName, email, countryCode);
+			customerService.addNewCustomerUponOAuthLogin(clientName, email, countryCode, authenticationType);
 		} else {
-			customerService.updateAuthenticationType(authenticationType, customer);
+			oauth2User.setFullName(customer.getFullName());
+			customerService.updateAuthenticationType(customer, authenticationType);
 		}
 
 		super.onAuthenticationSuccess(request, response, authentication);

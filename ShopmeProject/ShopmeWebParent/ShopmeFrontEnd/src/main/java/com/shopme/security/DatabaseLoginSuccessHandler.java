@@ -15,7 +15,8 @@ import com.shopme.common.entity.AuthenticationType;
 import com.shopme.common.entity.Customer;
 import com.shopme.customer.CustomerService;
 
-@Component
+
+@Component("securityDatabaseLoginSuccessHandler")
 public class DatabaseLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
 	@Autowired 
@@ -28,7 +29,7 @@ public class DatabaseLoginSuccessHandler extends SavedRequestAwareAuthentication
 		Customer customer = userDetails.getCustomer();
 
 
-		customerService.updateAuthenticationType(AuthenticationType.DATABASE,customer);
+		customerService.updateAuthenticationType(customer, AuthenticationType.DATABASE);
 
 		super.onAuthenticationSuccess(request, response, authentication);
 	}

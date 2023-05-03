@@ -13,9 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.shopme.customer.CustomerUserDetailService;
-import com.shopme.oauth.CustomerOAuth2UserService;
-import com.shopme.oauth.DatabaseLoginSuccessHandler;
-import com.shopme.oauth.OAuth2LoginSuccessHandler;
+import com.shopme.security.oauth.CustomerOAuth2UserService;
+import com.shopme.security.oauth.OAuth2LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/customer").authenticated()
+		.antMatchers("/account_details", "/update_account_details").authenticated()
 		.anyRequest().permitAll()
 		.and()
 		.formLogin()
@@ -70,7 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.key("1234567890_aBcDeFgHiJkLmNoPqRsTuVwXyZ")
 			.tokenValiditySeconds(14 * 24 * 60 * 60)
 		;
-
 	}
 
 	@Override

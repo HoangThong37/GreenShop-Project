@@ -14,10 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.common.entity.Country;
 import com.shopme.common.entity.Customer;
 import com.shopme.setting.SettingService;
+import com.shopme.until.CustomerAccountUtil;
 import com.shopme.until.CustomerRegisterUtil;
 
 @Controller
@@ -64,9 +66,28 @@ public class CustomerController {
 	
 	@GetMapping("/account_details")
 	public String viewAccountDetails(Model model, HttpServletRequest request) {
-	String principalType = request.getUserPrincipal().getClass().getName();
-		//System.out.println(principalType);
-		
+
+		String email = CustomerAccountUtil.getEmailOfAuthenticatedCustomer(request);
+		Customer customer = customerService.getCustomerByEmail(email);
+
+		List<Country> listCountries = customerService.listAllCountries();
+
+		model.addAttribute("customer", customer);
+		model.addAttribute("listCountries", listCountries);
+
 		return "customer/account_form";
+	}
+
+	@PostMapping("/update_account_details")
+	public String updateAccountDetails(Model model, Customer customer, RedirectAttributes ra,
+			HttpServletRequest request) {
+
+		customerService.update(customer);
+
+		ra.addFlashAttribute("message", "Your account details have been updated.");
+
+		CustomerAccountUtil.updateNameForAuthenticatedCustomer(customer, request);
+
+		return "redirect:/account_details";
 	}
 }
